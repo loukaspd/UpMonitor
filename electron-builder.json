@@ -1,0 +1,40 @@
+{
+  "productName": "UpMonitor",
+  "directories": {
+    "output": "dist/"
+  },
+    "files": [
+        "**/*",
+        "!**/*.ts",
+        "!*.code-workspace",
+        "!LICENSE.md",
+        "!package.json",
+        "!package-lock.json",
+        "!src/",
+        "!e2e/",
+        "!hooks/",
+        "!angular.json",
+        "!_config.yml",
+        "!karma.conf.js",
+        "!tsconfig.json",
+        "!tslint.json"
+    ],
+  "win": {
+    "icon": "public/favicon.png",
+    "target": [
+      "nsis"
+    ]
+  },
+  "mac": {
+    "icon": "public/favicon.png",
+    "target": [
+      "dmg"
+    ]
+  },
+  "linux": {
+    "icon": "public/favicon.png",
+    "target": [
+      "AppImage"
+    ]
+  }
+}

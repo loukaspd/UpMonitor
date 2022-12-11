@@ -32,10 +32,11 @@
     "electron-pack": "electron-builder",
 
     "electron:windows": "electron-builder build --windows --publish never",
-    "release:windows": "electron-builder build --windows --publish always",
+    "release:windows": "electron-builder build --windows --publish always"
   },
   "dependencies": {
     "electron-serve": "^1.1.0",
+    "electron-updater": "^5.3.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^23.0.2",
