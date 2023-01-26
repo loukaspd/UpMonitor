@@ -3,7 +3,7 @@
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
 	<!-- jquery -->
-	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js" on:load={onJqueryLoaded}></script>
 	<!-- Bootstrap 5.1.3-->
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous" />
 
@@ -12,6 +12,17 @@
 
 <script>
 	import Main from './Main.svelte';
+
+	let jQueryLoaded = false;
+
+	function onJqueryLoaded() {
+		console.log('jQuery loaded');
+		jQueryLoaded = true;
+	}
 </script>
 
-<Main />
+{#if jQueryLoaded}
+	<Main />
+{:else}
+	<h1> loading...</h1>
+{/if}

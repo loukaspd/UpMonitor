@@ -43,7 +43,6 @@
 <!-- Render  -->
 <!-- ######################################## -->
 <tr>
-    <td>1</td>
     <td>{endpoint.description}</td>
     <td><a href="{endpoint.url}">{endpoint.url}</a></td>
     <td>

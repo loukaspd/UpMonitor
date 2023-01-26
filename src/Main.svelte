@@ -4,6 +4,7 @@
     import EndpointsTable from "./Components/EndpointsTable.svelte";
     import ModalEndpoint from "./Components/ModalEndpoint.svelte";
     import {loadEndpoints} from './Services/EndpointsService.js';
+  import { UiConstants } from './Types/Constants';
     //----- </Internal> -----//
 
     onMount(async () => {
@@ -16,7 +17,7 @@
             return;
         }
 
-        window.$('#modal_endpoint').modal('show');
+        window.$(UiConstants.ModalEndpoint_IdSelector).modal('show');
     }
 </script>
 

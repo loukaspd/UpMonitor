@@ -1,8 +1,19 @@
 <script>
+    import { onMount } from 'svelte';
     import EndpointInfo from '../Types/EndpointInfo';
     import { saveEndpoint } from '../Services/EndpointsService';
-
+    import {UiConstants} from '../Types/Constants';
+    
+    
     let endpoint = new EndpointInfo();
+
+    setTimeout(() => {
+        window.$(UiConstants.ModalEndpoint_IdSelector).on('show.bs.modal', function (e) {
+          console.log('hello');
+          endpoint = new EndpointInfo();
+        });
+      }, 1000);
+
 
     async function uiOnSaveClicked() {
         //TODO validate form
@@ -17,7 +28,7 @@
 <!-- ######################################## -->
 <!-- Render  -->
 <!-- ######################################## -->
-<div class="modal fade" id="modal_endpoint" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="{UiConstants.ModalEndpoint_Id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">

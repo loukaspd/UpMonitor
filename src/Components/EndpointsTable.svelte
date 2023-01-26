@@ -8,7 +8,6 @@
     import EndpointRow from './EndpointRow.svelte';
     import {appStore} from '../Store.js';
     //----- </Internal Imports> -----//
-    
 
     //----- <Ui-Callbacks> ----- //
     function uiOnAddClicked() {
@@ -34,7 +33,7 @@
             </div>
         </div>
         <table class="table table-striped table-hover">
-            <thead>
+            <!-- <thead>
                 <tr>
                     <th>#</th>
                     <th>Name</th>						
@@ -42,9 +41,9 @@
                     <th>Status</th>
                     <th>Action</th>
                 </tr>
-            </thead>
+            </thead> -->
             <tbody>
-                {#each $appStore as endpoint (endpoint.name)}
+                {#each $appStore as endpoint (endpoint.description)}
                     <EndpointRow {endpoint} />
                 {/each}
             </tbody>
