@@ -25,7 +25,7 @@
 <!-- ######################################## -->
 <!-- Render  -->
 <!-- ######################################## -->
-<div class="container-xl">
+<div style="padding:10px 10px 0px 10px">
     <EndpointsTable on:addClicked={uiOnAddClicked}/>
     <ModalEndpoint />
 

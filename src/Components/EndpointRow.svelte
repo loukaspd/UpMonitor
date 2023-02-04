@@ -16,7 +16,6 @@
         status = Status.Pending;
         fetch(endpoint.url)
             .then(response => {
-                console.log(response);
                 if (response.ok) {
                     status = Status.Success;
                 } else {
@@ -43,15 +42,26 @@
 <!-- Render  -->
 <!-- ######################################## -->
 <tr>
-    <td>{endpoint.description}</td>
-    <td><a href="{endpoint.url}">{endpoint.url}</a></td>
+    <td><b>{endpoint.description}</b></td>
     <td>
+        <a href="{endpoint.url}">{endpoint.url}</a>
+        <br>
+        {#if status !== Status.Pending}
+            <p >last checked:</p>
+        {/if}
+        
+    </td>
+    <td 
+    class:positive="{status === Status.Success}"
+    class:negative="{status === Status.Error}"
+    >
         {#if status === Status.Pending}
-            <a href="#" title="loading" data-toggle="tooltip"><i class="material-icons">&#xe627;</i></a>
+            <!-- <a href="#" title="loading" data-toggle="tooltip"><i class="material-icons">&#xe627;</i></a> -->
+            <div class="loader"></div>
         {:else if status === Status.Error}
-            <span class="status text-danger">&bull;</span> Error
+            <i class="icon times"></i> Error
         {:else if status === Status.Success}
-            <span class="status text-success">&bull;</span> Success
+            <i class="icon checkmark"></i> Success
         {/if}
     </td>
     <td>
@@ -61,6 +71,29 @@
     </td>
 </tr>
 
+
 <!-- ######################################## -->
 <!-- Styles -->
 <!-- ######################################## -->
+<style>
+.loader {
+  border: 6px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 6px solid gray;
+  width: 25px;
+  height: 25px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 1.5s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
