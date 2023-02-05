@@ -1,31 +1,28 @@
 <script>
-    import { onMount } from 'svelte';
+    import { onDestroy } from 'svelte';
     //----- <Internal Imports> -----//
     import {deleteItem} from '../Services/EndpointsService';
+    import {endpoitStatusStore, addEndpoint, updateStatus} from '../Services/EndpointStatusService';
     import {Status} from '../Types/Constants';
+    import {dateToStringHhMmSs} from '../Helpers/JsHelpers.js'
     //----- </Internal Imports> -----//
 
-    onMount(async () => {
-		await checkEndpoint();
-	});
-
+    //----- <Exported Variables> -----//
     export let endpoint;
-    let status = Status.Pending;
+    //----- </Exported Variables> -----//
+
+    addEndpoint(endpoint);
+
+    let endpointStatus;
+    const unsubscribe = endpoitStatusStore.subscribe((statuses) => {
+        endpointStatus = statuses[endpoint.description];
+        if (!endpointStatus) {
+            endpointStatus = {status: Status.Pending};
+        }
+    });
 
     function checkEndpoint() {
-        status = Status.Pending;
-        fetch(endpoint.url)
-            .then(response => {
-                if (response.ok) {
-                    status = Status.Success;
-                } else {
-                    status = Status.Error;
-                }
-            })
-            .catch(error => {
-                console.log(error);
-                status = Status.Error;
-            });
+        updateStatus(endpoint);
     }
 
     function uiOnDeleteClicked() {
@@ -35,6 +32,10 @@
     function uiOnRefreshClicked() {
         checkEndpoint();
     }
+
+    //----- <Svente-LifeCycle> -----//
+    onDestroy(unsubscribe);
+    //----- </Svente-LifeCycle> -----/
 </script>
 
 
@@ -46,21 +47,21 @@
     <td>
         <a href="{endpoint.url}" target="_blank">{endpoint.url}</a>
         <br>
-        {#if status !== Status.Pending}
-            <p >last checked:</p>
+        {#if endpointStatus.status !== Status.Pending}
+            <p >last checked: {dateToStringHhMmSs(endpointStatus.lastChecked)}</p>
         {/if}
         
     </td>
     <td 
-    class:positive="{status === Status.Success}"
-    class:negative="{status === Status.Error}"
+    class:positive="{endpointStatus.status === Status.Success}"
+    class:negative="{endpointStatus.status === Status.Error}"
     >
-        {#if status === Status.Pending}
+        {#if endpointStatus.status === Status.Pending}
             <!-- <a href="#" title="loading" data-toggle="tooltip"><i class="material-icons">&#xe627;</i></a> -->
             <div class="loader"></div>
-        {:else if status === Status.Error}
+        {:else if endpointStatus.status === Status.Error}
             <i class="icon times"></i> Error
-        {:else if status === Status.Success}
+        {:else if endpointStatus.status === Status.Success}
             <i class="icon checkmark"></i> Success
         {/if}
     </td>
