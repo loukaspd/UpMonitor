@@ -1,5 +1,4 @@
 <script>
-    import { onMount } from 'svelte';
     import EndpointInfo from '../Types/EndpointInfo';
     import { saveEndpoint } from '../Services/EndpointsService';
     import {UiConstants} from '../Types/Constants';
@@ -7,12 +6,10 @@
     
     let endpoint = new EndpointInfo();
 
-    setTimeout(() => {
-        window.$(UiConstants.ModalEndpoint_IdSelector).on('show.bs.modal', function (e) {
-          console.log('hello');
-          endpoint = new EndpointInfo();
-        });
-      }, 1000);
+    export function showModal() {
+      endpoint = new EndpointInfo();
+      window.$(UiConstants.ModalEndpoint_IdSelector).modal('show');
+    }
 
 
     async function uiOnSaveClicked() {

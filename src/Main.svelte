@@ -4,15 +4,16 @@
     import EndpointsTable from "./Components/EndpointsTable.svelte";
     import ModalEndpoint from "./Components/ModalEndpoint.svelte";
     import {loadEndpoints, deleteAll} from './Services/EndpointsService.js';
-  import { UiConstants } from './Types/Constants';
     //----- </Internal> -----//
+
+    let modalEndpoint;
 
     onMount(async () => {
 		await loadEndpoints();
 	});
 
     function uiOnAddClicked() {
-        window.$(UiConstants.ModalEndpoint_IdSelector).modal('show');
+        modalEndpoint.showModal();
     }
 
     function uiOnDeleteAllClicked() {
@@ -45,7 +46,7 @@
     <EndpointsTable 
         on:addClicked={uiOnAddClicked}
         on:deleteAllClicked={uiOnDeleteAllClicked}/>
-    <ModalEndpoint />
+    <ModalEndpoint bind:this={modalEndpoint}/>
 
 </div>
 
