@@ -36,25 +36,34 @@ export function updateStatus(endpoint) {
 async function updateStatusRecursive(endpoint, settings) {
     setEndpointStatus(endpoint, Status.Pending);
     let status;
+    let errorDetails = {};
     try {
         //await new Promise(resolve => setTimeout(resolve, 3000));
         let response = await fetch(endpoint.url);
+        if (response.ok) {
+            status = Status.Success;
+        }
+        else {
+            status = Status.Error;
+            errorDetails = {statusCode: response.status, description: await response.text()};
+        }
         status = response.ok ? Status.Success : Status.Error;
     }
     catch(error) {
         console.log(error);
         status = Status.Error;
+        errorDetails = {description: error.message};
     }
 
-    setEndpointStatus(endpoint, status);
+    setEndpointStatus(endpoint, status, errorDetails);
     timeouts[endpoint.description] = setTimeout(async () => await updateStatusRecursive(endpoint, settings), settings.refreshIntervalSec * 1000);
 }
 
 
 //Helper Functions
-function setEndpointStatus(endpoint, status) {
+function setEndpointStatus(endpoint, status, errorDetails = {}) {
     endpoitStatusStore.update((statuses) => {
-        statuses[endpoint.description] = {status, lastChecked: new Date()};
+        statuses[endpoint.description] = {status, ...errorDetails, lastChecked: new Date() };
         return statuses;
     });
 }

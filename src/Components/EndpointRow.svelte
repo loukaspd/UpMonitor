@@ -60,7 +60,11 @@
             <!-- <a href="#" title="loading" data-toggle="tooltip"><i class="material-icons">&#xe627;</i></a> -->
             <div class="loader"></div>
         {:else if endpointStatus.status === Status.Error}
-            <i class="icon times"></i> Error
+            <span>
+                <i class="icon times"></i> Error
+                <br/>StatusCode: {endpointStatus.statusCode || '-'}
+                <br/>Description: {endpointStatus.description}
+            </span>
         {:else if endpointStatus.status === Status.Success}
             <i class="icon checkmark"></i> Success
         {/if}
