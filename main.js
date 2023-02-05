@@ -59,6 +59,13 @@ function createWindow() {
     mainWindow.once('ready-to-show', () => {
         mainWindow.show()
     });
+
+    //open links with default browser
+    //needs target="_blank" in order to work
+    mainWindow.webContents.on('new-window', function(e, url) {
+      e.preventDefault();
+      require('electron').shell.openExternal(url);
+    });
 }
 
 // This method will be called when Electron has finished

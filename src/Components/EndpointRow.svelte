@@ -44,7 +44,7 @@
 <tr>
     <td><b>{endpoint.description}</b></td>
     <td>
-        <a href="{endpoint.url}">{endpoint.url}</a>
+        <a href="{endpoint.url}" target="_blank">{endpoint.url}</a>
         <br>
         {#if status !== Status.Pending}
             <p >last checked:</p>
