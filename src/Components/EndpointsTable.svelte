@@ -16,6 +16,9 @@
     function uiOnSettingsClicked() {
         dispatch('settingsClicked');
     }
+    function uiOnDeleteAllClicked() {
+        dispatch('deleteAllClicked');
+    }
     //----- </Ui-Callbacks> ----- //
 </script>
 
@@ -44,8 +47,11 @@
             <button class="ui right floated small primary labeled icon button" on:click={uiOnAddClicked}>
                 <i class="plus icon"></i> Add
             </button>
-            <button class="ui right floated small primary labeled icon button" on:click={uiOnSettingsClicked}>
-                <i class="plus icon"></i> Settings
+            <button class="ui right floated small labeled icon button" on:click={uiOnSettingsClicked}>
+                <i class="edit icon"></i> Settings
+            </button>
+            <button class="ui right floated small negative labeled icon button" on:click={uiOnDeleteAllClicked}>
+                <i class="close icon"></i> Delete All
             </button>
             </th>
         </tr>
