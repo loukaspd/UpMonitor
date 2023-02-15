@@ -4,7 +4,14 @@ export const Status = {
     Error: 3
 };
 
+export const StoreConstants = {
+    DEFAULT_SETTINGS_ID: '_'
+}
+
 export const UiConstants = {
     ModalEndpoint_Id: 'modal_endpoint',
     ModalEndpoint_IdSelector : '#modal_endpoint',
+
+    ModalSettings_Id: 'modal_settings',
+    ModalSettings_IdSelector: '#modal_settings',
 };

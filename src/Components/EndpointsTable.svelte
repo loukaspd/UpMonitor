@@ -2,6 +2,7 @@
     //----- <Methods Imports> -----//
     import { createEventDispatcher } from 'svelte';
     const dispatch = createEventDispatcher();
+    import {StoreConstants} from '../Types/Constants.js';
     //----- </Methods Imports> -----//
 
     //----- <Internal Imports> -----//
@@ -14,7 +15,7 @@
         dispatch('addClicked');
     }
     function uiOnSettingsClicked() {
-        dispatch('settingsClicked');
+        dispatch('settingsClicked', StoreConstants.DEFAULT_SETTINGS_ID);
     }
     function uiOnDeleteAllClicked() {
         dispatch('deleteAllClicked');
@@ -38,7 +39,7 @@
     </thead>
     <tbody>
         {#each $appStore as endpoint (endpoint.description)}
-            <EndpointRow {endpoint} />
+            <EndpointRow {endpoint} on:settingsClicked/>
         {/each}
     </tbody>
     <tfoot class="full-width">

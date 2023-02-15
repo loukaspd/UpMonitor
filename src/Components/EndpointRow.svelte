@@ -1,5 +1,6 @@
 <script>
-    import { onDestroy } from 'svelte';
+    import { onDestroy, createEventDispatcher } from 'svelte';
+    const dispatch = createEventDispatcher();
     //----- <Internal Imports> -----//
     import {deleteItem} from '../Services/EndpointsService';
     import {endpoitStatusStore, addEndpoint, updateStatus} from '../Services/EndpointStatusService';
@@ -33,6 +34,10 @@
         checkEndpoint();
     }
 
+    function uiOnSettingsClicked() {
+        dispatch('settingsClicked', endpoint.description);
+    }
+
     //----- <Svente-LifeCycle> -----//
     onDestroy(unsubscribe);
     //----- </Svente-LifeCycle> -----/
@@ -45,7 +50,7 @@
 <tr>
     <td><b>{endpoint.description}</b></td>
     <td>
-        <a href="{endpoint.url}" target="_blank">{endpoint.url}</a>
+        <a href="{endpoint.url}" target="_blank" rel="noreferrer">{endpoint.url}</a>
         <br>
         {#if endpointStatus.status !== Status.Pending}
             <p >last checked: {dateToStringHhMmSs(endpointStatus.lastChecked)}</p>
@@ -69,8 +74,10 @@
             <i class="icon checkmark"></i> Success
         {/if}
     </td>
-    <td>
+    <td class="single line">
         <a on:click={uiOnDeleteClicked} href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
+
+        <a on:click={uiOnSettingsClicked} href="#" class="settings" title="Settings" data-toggle="tooltip" style="color:gray"><i class="material-icons">settings</i></a>
 
         <a on:click={uiOnRefreshClicked} href="#" class="refresh" title="Refresh" data-toggle="tooltip"><i class="material-icons">&#xe5d5;</i></a>
     </td>

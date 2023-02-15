@@ -1,4 +1,6 @@
 export default class Settings {
-    refreshIntervalSec;
-    notifyOnError;
+    constructor() {
+        this.refreshIntervalSec;
+        this.notifyOnError;
+    }
 }
