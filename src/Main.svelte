@@ -13,8 +13,8 @@
     let modalSettings;
 
     onMount(async () => {
-		await loadEndpoints();
         await loadSettings();
+		await loadEndpoints();
 	});
 
     function uiOnAddClicked() {
@@ -22,7 +22,6 @@
     }
 
     function uiOnSettingsClicked(event) {
-        console.log(event.detail);
         modalSettings.showModal(event.detail);
     }
 

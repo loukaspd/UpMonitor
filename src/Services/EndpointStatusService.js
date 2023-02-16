@@ -1,26 +1,15 @@
 //This Service is responsible for checking endpoint status and updating the store
-import { writable } from 'svelte/store';
+import { get, writable } from 'svelte/store';
 
-import Settings from '../Types/Settings.js';
-import {Status} from '../Types/Constants';
+import { settingsStore } from './SettingsService';
+import { Status, StoreConstants } from '../Types/Constants';
 
 export const endpoitStatusStore = writable({});
 
-let settings = {};
 let timeouts = {};
 
-export function initSettings() {
-    let defaultSettings = new Settings();
-    defaultSettings.refreshIntervalSec = 60;
-    defaultSettings.notifyOnError = false;
-    settings["_"] = defaultSettings;
-}
-
 export function addEndpoint(endpoint) {
-    initSettings();//TODO move to app
-
-    const s = settingsForEndpoint(endpoint);
-    updateStatusRecursive(endpoint, s);
+    updateStatusRecursive(endpoint);
 }
 
 export function removeEndpoint(endpoint) {
@@ -29,11 +18,10 @@ export function removeEndpoint(endpoint) {
 
 export function updateStatus(endpoint) {
     clearTimeout(timeouts[endpoint.description]);
-    const s = settingsForEndpoint(endpoint);
-    updateStatusRecursive(endpoint, s);
+    updateStatusRecursive(endpoint);
 }
 
-async function updateStatusRecursive(endpoint, settings) {
+async function updateStatusRecursive(endpoint) {
     setEndpointStatus(endpoint, Status.Pending);
     let status;
     let errorDetails = {};
@@ -54,9 +42,11 @@ async function updateStatusRecursive(endpoint, settings) {
         status = Status.Error;
         errorDetails = {description: error.message};
     }
-
     setEndpointStatus(endpoint, status, errorDetails);
-    timeouts[endpoint.description] = setTimeout(async () => await updateStatusRecursive(endpoint, settings), settings.refreshIntervalSec * 1000);
+
+    //Recurse
+    const settings = settingsForEndpoint(endpoint);
+    timeouts[endpoint.description] = setTimeout(async () => await updateStatusRecursive(endpoint), settings.refreshIntervalSec * 1000);
 }
 
 
@@ -70,5 +60,7 @@ function setEndpointStatus(endpoint, status, errorDetails = {}) {
 
 
 function settingsForEndpoint(endpoint) {
-    return settings[endpoint.description] || settings["_"];
+    const settings = get(settingsStore);
+    
+    return settings[endpoint.description] || settings[StoreConstants.DEFAULT_SETTINGS_ID];
 }
