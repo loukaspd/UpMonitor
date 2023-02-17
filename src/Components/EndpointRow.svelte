@@ -4,6 +4,7 @@
     //----- <Internal Imports> -----//
     import {deleteItem} from '../Services/EndpointsService';
     import {endpoitStatusStore, addEndpoint, updateStatus} from '../Services/EndpointStatusService';
+    import {settingsStore} from '../Services/SettingsService'
     import {Status} from '../Types/Constants';
     import {dateToStringHhMmSs} from '../Helpers/JsHelpers.js'
     //----- </Internal Imports> -----//
@@ -15,12 +16,16 @@
     addEndpoint(endpoint);
 
     let endpointStatus;
-    const unsubscribe = endpoitStatusStore.subscribe((statuses) => {
+    const endpointStatusUnsubscr = endpoitStatusStore.subscribe((statuses) => {
         endpointStatus = statuses[endpoint.description];
         if (!endpointStatus) {
             endpointStatus = {status: Status.Pending};
         }
     });
+    let settingsActive;
+    const settingsUnsubscr = settingsStore.subscribe((settings) => {
+        settingsActive = !!settings[endpoint.description];
+    })
 
     function checkEndpoint() {
         updateStatus(endpoint);
@@ -39,7 +44,8 @@
     }
 
     //----- <Svente-LifeCycle> -----//
-    onDestroy(unsubscribe);
+    onDestroy(endpointStatusUnsubscr);
+    onDestroy(settingsUnsubscr);
     //----- </Svente-LifeCycle> -----/
 </script>
 
@@ -77,7 +83,8 @@
     <td class="single line">
         <a on:click={uiOnDeleteClicked} href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
 
-        <a on:click={uiOnSettingsClicked} href="#" class="settings" title="Settings" data-toggle="tooltip" style="color:gray"><i class="material-icons">settings</i></a>
+        <a on:click={uiOnSettingsClicked} href="#" class="settings" title="Settings" data-toggle="tooltip"
+            class:gray="{!settingsActive}"><i class="material-icons">settings</i></a>
 
         <a on:click={uiOnRefreshClicked} href="#" class="refresh" title="Refresh" data-toggle="tooltip"><i class="material-icons">&#xe5d5;</i></a>
     </td>
@@ -88,6 +95,13 @@
 <!-- Styles -->
 <!-- ######################################## -->
 <style>
+
+/* -----Settings color */
+.gray {
+    color:gray !important;
+}
+
+/* -----Loader */
 .loader {
   border: 6px solid #f3f3f3;
   border-radius: 50%;

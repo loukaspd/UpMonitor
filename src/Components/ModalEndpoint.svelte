@@ -16,7 +16,7 @@
         //TODO validate form
         await saveEndpoint(endpoint);
         //close modal
-        //window.$('#modal_endpoint').modal('hide');
+        window.$(UiConstants.ModalEndpoint_IdSelector).modal('hide');
     }
     
 </script>
@@ -43,7 +43,7 @@
 
   <div class="actions">
     <div class="ui negative button">Cancel</div>
-    <button on:click={uiOnSaveClicked} class="ui approve button">Save</button>
+    <button on:click={uiOnSaveClicked} class="ui primary button">Save</button>
   </div>
 </div>
 

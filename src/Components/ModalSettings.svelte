@@ -1,7 +1,7 @@
 <script>
     import Settings from '../Types/Settings';
-    import { UiConstants } from '../Types/Constants';
-    import { settingsStore, saveSettings } from '../Services/SettingsService';
+    import { UiConstants, StoreConstants } from '../Types/Constants';
+    import { settingsStore, saveSettings, deleteSettings } from '../Services/SettingsService';
     
     let settingId = '';
     let settings = new Settings();
@@ -18,6 +18,12 @@
 
     async function uiOnSaveClicked() {
       await saveSettings(settingId, settings);
+      window.$(UiConstants.ModalSettings_IdSelector).modal('hide');
+    }
+
+    async function uiOnDeleteClicked() {
+      await deleteSettings(settingId);
+      window.$(UiConstants.ModalSettings_IdSelector).modal('hide');
     }
     
 </script>
@@ -45,8 +51,11 @@
   </div>
 
   <div class="actions">
-    <div class="ui negative button">Cancel</div>
-    <button on:click={uiOnSaveClicked} class="ui approve button">Save</button>
+    <div class="ui cancel button">Cancel</div>
+    {#if settingId != StoreConstants.DEFAULT_SETTINGS_ID }
+      <button on:click={uiOnDeleteClicked} class="ui negative button">Delete</button>
+    {/if}
+    <button on:click={uiOnSaveClicked} class="ui primary button">Save</button>
   </div>
 </div>
 

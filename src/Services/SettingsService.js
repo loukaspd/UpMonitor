@@ -22,3 +22,10 @@ export async function saveSettings(id, item) {
     localStorage.setItem('settings', JSON.stringify(allSettings));
     settingsStore.set(allSettings);
 }
+
+export async function deleteSettings(id) {
+    delete allSettings[id];
+
+    localStorage.setItem('settings', JSON.stringify(allSettings));
+    settingsStore.set(allSettings);
+}
