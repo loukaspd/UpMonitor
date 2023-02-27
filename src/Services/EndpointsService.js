@@ -25,3 +25,7 @@ export async function deleteAll() {
     appStore.set([]);
     endPoints = [];
 }
+
+export async function endpointExists(identifier) {
+    return !!endPoints.find(e => e.description == identifier);
+}
