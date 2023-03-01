@@ -22,7 +22,7 @@ export function updateStatus(endpoint) {
 }
 
 async function updateStatusRecursive(endpoint) {
-    let prevStatus = get(endpoitStatusStore)[endpoint.description];
+    let prevStatus = get(endpoitStatusStore)[endpoint.description]?.status;
     setEndpointStatus(endpoint, Status.Pending);
     let status;
     let errorDetails = {};
@@ -69,7 +69,7 @@ function showNotificationIfNeeded(endpoint, prevStatus, newStatus, settings) {
 
     if(!settings.notifyOnStatusChange) return; //disabled by settings
 
-    const prevDescr = StatusDescription[prevStatus.status];
+    const prevDescr = StatusDescription[prevStatus];
     const currentDescr = StatusDescription[newStatus];
     window.electronAPI.showStatusNotification({
         description: endpoint.description, 
