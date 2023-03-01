@@ -1,5 +1,6 @@
-## [0.0.4] - yyy-mm-dd
+## [0.0.4] - 2023-03-01
 ### Added
+- [Notifications]: show notification on status change
 - [AddEndpoint]: verify description is unique
 - [AddEndpoint]: add http/https dropdown
  

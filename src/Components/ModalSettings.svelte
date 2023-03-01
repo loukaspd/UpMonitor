@@ -43,8 +43,8 @@
       </div>
       <div class="field">
         <div class="ui checkbox">
-            <input bind:checked={settings.notifyOnError} type="checkbox" tabindex="0" class="hidden" id="notifyOnError">
-            <label for="notifyOnError">Notify On Error</label>
+            <input bind:checked={settings.notifyOnStatusChange} type="checkbox" tabindex="0" class="hidden" id="notifyOnStatusChange">
+            <label for="notifyOnStatusChange">Notify On Status Change</label>
         </div>
       </div>
     </form>

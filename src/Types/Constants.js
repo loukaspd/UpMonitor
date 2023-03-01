@@ -4,6 +4,12 @@ export const Status = {
     Error: 3
 };
 
+export const StatusDescription = {
+    1: "Pending",
+    2: "Success",
+    3: "Error"
+};
+
 export const StoreConstants = {
     DEFAULT_SETTINGS_ID: '_'
 }

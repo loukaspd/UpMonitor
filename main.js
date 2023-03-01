@@ -1,5 +1,5 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain, Notification } = require('electron');
 const {autoUpdater} = require('electron-updater');
 const path = require('path');
 const serve = require('electron-serve');
@@ -60,12 +60,21 @@ function createWindow() {
         mainWindow.show()
     });
 
-    //open links with default browser
+    //Custom_Code: open links with default browser
     //needs target="_blank" in order to work
     mainWindow.webContents.on('new-window', function(e, url) {
       e.preventDefault();
       require('electron').shell.openExternal(url);
     });
+
+    //Custom_Code: Show notification
+    ipcMain.on('status-change-notification', (event, statusInfo) => {
+        new Notification({ 
+            title: statusInfo.description
+            , body: `Status changed from ${statusInfo.prevStatus} to ${statusInfo.currentStatus}`
+        })
+        .show()
+    })
 }
 
 // This method will be called when Electron has finished

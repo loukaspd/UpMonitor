@@ -1,5 +1,7 @@
 <svelte:head>
-	<!-- Material Icons -->
+	<!-- Material Icons 
+	choose icons from here:https://fonts.google.com/icons
+	-->
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
 	<!-- jquery -->

@@ -2,7 +2,7 @@
 import { get, writable } from 'svelte/store';
 
 import { settingsStore } from './SettingsService';
-import { Status, StoreConstants } from '../Types/Constants';
+import { Status, StatusDescription, StoreConstants } from '../Types/Constants';
 
 export const endpoitStatusStore = writable({});
 
@@ -22,11 +22,11 @@ export function updateStatus(endpoint) {
 }
 
 async function updateStatusRecursive(endpoint) {
+    let prevStatus = get(endpoitStatusStore)[endpoint.description];
     setEndpointStatus(endpoint, Status.Pending);
     let status;
     let errorDetails = {};
     try {
-        //await new Promise(resolve => setTimeout(resolve, 3000));
         let response = await fetch(endpoint.url);
         if (response.ok) {
             status = Status.Success;
@@ -44,8 +44,11 @@ async function updateStatusRecursive(endpoint) {
     }
     setEndpointStatus(endpoint, status, errorDetails);
 
-    //Recurse
+
     const settings = settingsForEndpoint(endpoint);
+    showNotificationIfNeeded(endpoint, prevStatus, status, settings);
+
+    //Recurse
     timeouts[endpoint.description] = setTimeout(async () => await updateStatusRecursive(endpoint), settings.refreshIntervalSec * 1000);
 }
 
@@ -55,6 +58,23 @@ function setEndpointStatus(endpoint, status, errorDetails = {}) {
     endpoitStatusStore.update((statuses) => {
         statuses[endpoint.description] = {status, ...errorDetails, lastChecked: new Date() };
         return statuses;
+    });
+}
+
+
+function showNotificationIfNeeded(endpoint, prevStatus, newStatus, settings) {
+    if (!prevStatus) return;    //first time retrieving this endpoint's status
+
+    if (prevStatus == newStatus) return;    //no status change
+
+    if(!settings.notifyOnStatusChange) return; //disabled by settings
+
+    const prevDescr = StatusDescription[prevStatus.status];
+    const currentDescr = StatusDescription[newStatus];
+    window.electronAPI.showStatusNotification({
+        description: endpoint.description, 
+        prevStatus: prevDescr, 
+        currentStatus: currentDescr 
     });
 }
 
