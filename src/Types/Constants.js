@@ -20,4 +20,7 @@ export const UiConstants = {
 
     ModalSettings_Id: 'modal_settings',
     ModalSettings_IdSelector: '#modal_settings',
+
+    ModalHistory_Id: 'modal_history',
+    ModalHistory_IdSelector: '#modal_history',
 };

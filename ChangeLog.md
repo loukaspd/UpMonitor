@@ -1,3 +1,10 @@
+## [0.0.5] - 2023-03-07
+### Added
+- [History]: show endpoint status history in modal
+ 
+### Fixed
+- [Notifications]: bug fix in notification logic
+
 ## [0.0.4] - 2023-03-01
 ### Added
 - [Notifications]: show notification on status change

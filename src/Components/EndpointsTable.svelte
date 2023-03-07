@@ -39,7 +39,9 @@
     </thead>
     <tbody>
         {#each $appStore as endpoint (endpoint.description)}
-            <EndpointRow {endpoint} on:settingsClicked/>
+            <EndpointRow {endpoint}
+            on:settingsClicked
+            on:historyClicked/>
         {/each}
     </tbody>
     <tfoot class="full-width">

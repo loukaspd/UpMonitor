@@ -5,6 +5,7 @@ import { settingsStore } from './SettingsService';
 import { Status, StatusDescription, StoreConstants } from '../Types/Constants';
 
 export const endpoitStatusStore = writable({});
+export const endpoitStatusHistory = {};
 
 let timeouts = {};
 
@@ -43,6 +44,7 @@ async function updateStatusRecursive(endpoint) {
         errorDetails = {description: error.message};
     }
     setEndpointStatus(endpoint, status, errorDetails);
+    keepStatusToHistory(endpoint,status, errorDetails);
 
 
     const settings = settingsForEndpoint(endpoint);
@@ -59,6 +61,18 @@ function setEndpointStatus(endpoint, status, errorDetails = {}) {
         statuses[endpoint.description] = {status, ...errorDetails, lastChecked: new Date() };
         return statuses;
     });
+}
+
+function keepStatusToHistory(endpoint, status, errorDetails = {}) {
+    if (status == Status.Pending) {
+        return;//we don't store pending status
+    }
+    
+    if (!endpoitStatusHistory[endpoint.description]) {
+        endpoitStatusHistory[endpoint.description] = [];
+    }
+    
+    endpoitStatusHistory[endpoint.description].unshift({status, ...errorDetails, lastChecked: new Date() });
 }
 
 

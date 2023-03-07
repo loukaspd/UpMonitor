@@ -31,6 +31,15 @@
         updateStatus(endpoint);
     }
 
+    function settingsClicked() {
+        dispatch('settingsClicked', endpoint.description);
+    }
+
+    function showHistory() {
+        dispatch('historyClicked', endpoint.description);
+    }
+
+    //----- Ui Callbacks -----//
     function uiOnDeleteClicked() {
         deleteItem(endpoint);
     }
@@ -40,7 +49,11 @@
     }
 
     function uiOnSettingsClicked() {
-        dispatch('settingsClicked', endpoint.description);
+        settingsClicked();
+    }
+
+    function uiOnHistoryClicked() {
+        showHistory();
     }
 
     //----- <Svente-LifeCycle> -----//
@@ -59,7 +72,7 @@
         <a href="{endpoint.url}" target="_blank" rel="noreferrer">{endpoint.url}</a>
         <br>
         {#if endpointStatus.status !== Status.Pending}
-            <p >last checked: {dateToStringHhMmSs(endpointStatus.lastChecked)}</p>
+            <p>last checked: {dateToStringHhMmSs(endpointStatus.lastChecked)}</p>
         {/if}
         
     </td>
@@ -87,6 +100,8 @@
             class:gray="{!settingsActive}"><i class="material-icons">settings</i></a>
 
         <a on:click={uiOnRefreshClicked} href="#" class="refresh" title="Refresh" data-toggle="tooltip"><i class="material-icons">&#xe5d5;</i></a>
+
+        <a on:click={uiOnHistoryClicked} href="#" class="settings" title="History" data-toggle="tooltip" style="color:black;"><i class="material-icons">work_history</i></a>
     </td>
 </tr>
 
