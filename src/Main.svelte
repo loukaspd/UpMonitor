@@ -2,6 +2,7 @@
     import { onMount } from 'svelte';
     //----- <Internal Imports> -----//
     import EndpointsTable from "./Components/EndpointsTable.svelte";
+    import ButtonsComponent from "./Components/ButtonsComponent.svelte";
     import ModalEndpoint from "./Components/ModalEndpoint.svelte";
     import ModalSettings from "./Components/ModalSettings.svelte";
     import ModalHistory from "./Components/ModalHistory.svelte";
@@ -57,11 +58,15 @@
 <!-- Render  -->
 <!-- ######################################## -->
 <div style="padding:10px 10px 0px 10px">
-    <EndpointsTable 
+    <ButtonsComponent
         on:addClicked={uiOnAddClicked}
         on:settingsClicked={uiOnSettingsClicked}
         on:deleteAllClicked={uiOnDeleteAllClicked}
-        on:historyClicked={uiOnHistoryClicked}/>
+    />
+
+    <EndpointsTable 
+        on:historyClicked={uiOnHistoryClicked}
+    />
     <ModalEndpoint bind:this={modalEndpoint}/>
     <ModalSettings bind:this={modalSettings}/>
     <ModalHistory bind:this={modalHistory}/>
