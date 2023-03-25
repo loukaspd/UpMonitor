@@ -34,6 +34,23 @@
         //close modal
         window.$(UiConstants.ModalEndpoint_IdSelector).modal('hide');
     }
+
+    //this is triggered on blur
+    async function uiOnUrlChange(e) {
+      if (!endpoint.url.startsWith('https://') 
+        && !endpoint.url.startsWith('http://')) {
+        return;
+      }
+
+      const index = endpoint.url.indexOf('://');
+      https = endpoint.url.substring(0, index+3);
+      endpoint.url = endpoint.url.substring(index+3);
+    }
+
+    //this is triggered on every key press
+    async function uiOnUrlInput(e) {
+      //console.log('input',e.target.value);
+    }
     
 </script>
 
@@ -61,7 +78,11 @@
           </select>
         </div>
         <div class="fifteen wide field">
-          <input bind:value={endpoint.url} type="text" class="form-control" id="url" placeholder="Url">
+          <input type="text" class="form-control" id="url" placeholder="Url"
+            bind:value={endpoint.url} 
+            on:input={uiOnUrlInput}
+            on:change={uiOnUrlChange}
+          >
         </div>
       </div>
     </form>
