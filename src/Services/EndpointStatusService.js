@@ -5,7 +5,7 @@ import { settingsStore } from './SettingsService';
 import { Status, StatusDescription, StoreConstants } from '../Types/Constants';
 
 export const endpoitStatusStore = writable({});
-export const endpoitStatusHistory = {};
+export const endpoitStatusHistory = writable({});
 
 let timeouts = {};
 
@@ -20,6 +20,13 @@ export function removeEndpoint(endpoint) {
 export function updateStatus(endpoint) {
     clearTimeout(timeouts[endpoint.description]);
     updateStatusRecursive(endpoint);
+}
+
+export function historyClear(endpointDescription) {
+    endpoitStatusHistory.update((statuses) => {
+        statuses[endpointDescription] = [];
+        return statuses;
+    });
 }
 
 async function updateStatusRecursive(endpoint) {
@@ -68,11 +75,14 @@ function keepStatusToHistory(endpoint, status, errorDetails = {}) {
         return;//we don't store pending status
     }
     
-    if (!endpoitStatusHistory[endpoint.description]) {
-        endpoitStatusHistory[endpoint.description] = [];
-    }
+    const history = get(endpoitStatusHistory)[endpoint.description] ?? [];
     
-    endpoitStatusHistory[endpoint.description].unshift({status, ...errorDetails, lastChecked: new Date() });
+    history.unshift({status, ...errorDetails, lastChecked: new Date() });
+
+    endpoitStatusHistory.update((statuses) => {
+        statuses[endpoint.description] = [...history];
+        return statuses;
+    });
 }
 
 

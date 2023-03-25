@@ -1,3 +1,11 @@
+## [0.0.6] - Pending
+### Changed
+- include (some) external libraries in app
+- [UI] move buttons above table
+- [ModalEndpoint] autofill http-https on blur
+- [ModalHistory] history updates real-time
+- [ModalHistory] introduce clear history functionality
+
 ## [0.0.5] - 2023-03-07
 ### Added
 - [History]: show endpoint status history in modal
