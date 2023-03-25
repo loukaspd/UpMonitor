@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import EndpointInfo from '../Types/EndpointInfo';
     import { saveEndpoint, endpointExists } from '../Services/EndpointsService';
     import { UiConstants } from '../Types/Constants';
@@ -36,7 +36,7 @@
     }
 
     //this is triggered on blur
-    async function uiOnUrlChange(e) {
+    async function uiOnUrlChange() {
       if (!endpoint.url.startsWith('https://') 
         && !endpoint.url.startsWith('http://')) {
         return;
@@ -48,7 +48,7 @@
     }
 
     //this is triggered on every key press
-    async function uiOnUrlInput(e) {
+    async function uiOnUrlInput() {
       //console.log('input',e.target.value);
     }
     

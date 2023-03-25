@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import { onMount } from 'svelte';
     //----- <Internal Imports> -----//
     import EndpointsTable from "./Components/EndpointsTable.svelte";
@@ -6,13 +6,13 @@
     import ModalEndpoint from "./Components/ModalEndpoint.svelte";
     import ModalSettings from "./Components/ModalSettings.svelte";
     import ModalHistory from "./Components/ModalHistory.svelte";
-    import {loadEndpoints, deleteAll} from './Services/EndpointsService.js';
-    import {loadSettings} from './Services/SettingsService.js';
+    import {loadEndpoints, deleteAll} from './Services/EndpointsService';
+    import {loadSettings} from './Services/SettingsService';
     //----- </Internal> -----//
 
-    let modalEndpoint;
-    let modalSettings;
-    let modalHistory;
+    let modalEndpoint: ModalEndpoint;
+    let modalSettings: ModalSettings;
+    let modalHistory: ModalHistory;
 
     onMount(async () => {
         await loadSettings();
@@ -23,11 +23,11 @@
         modalEndpoint.showModal();
     }
 
-    function uiOnSettingsClicked(event) {
+    function uiOnSettingsClicked(event: CustomEvent<string>) {
         modalSettings.showModal(event.detail);
     }
 
-    function uiOnHistoryClicked(event) {
+    function uiOnHistoryClicked(event: CustomEvent<string>) {
         modalHistory.showModal(event.detail);
     }
 
@@ -64,7 +64,8 @@
         on:deleteAllClicked={uiOnDeleteAllClicked}
     />
 
-    <EndpointsTable 
+    <EndpointsTable
+        on:settingsClicked={uiOnSettingsClicked}
         on:historyClicked={uiOnHistoryClicked}
     />
     <ModalEndpoint bind:this={modalEndpoint}/>

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import Settings from '../Types/Settings';
     import { UiConstants, StoreConstants } from '../Types/Constants';
     import { settingsStore, saveSettings, deleteSettings } from '../Services/SettingsService';
@@ -6,7 +6,7 @@
     let settingId = '';
     let settings = new Settings();
 
-    export function showModal(id) {
+    export function showModal(id: string) {
       settingId = id;
       settings = $settingsStore[id];
       if (settings == null) {

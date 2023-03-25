@@ -1,8 +1,8 @@
-<script>
+<script lang="ts">
     //----- <Methods Imports> -----//
     import { createEventDispatcher } from 'svelte';
     const dispatch = createEventDispatcher();
-    import {StoreConstants} from '../Types/Constants.js';
+    import {StoreConstants} from '../Types/Constants';
     //----- </Methods Imports> -----//
     
     

@@ -1,7 +1,7 @@
-export const Status = {
-    Pending: 1,
-    Success: 2,
-    Error: 3
+export enum Status {
+    Pending =1,
+    Success =2,
+    Error =3
 };
 
 export const StatusDescription = {

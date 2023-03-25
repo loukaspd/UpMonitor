@@ -1,38 +1,40 @@
 //This Service is responsible for checking endpoint status and updating the store
 import { get, writable } from 'svelte/store';
 
+import type EndpointInfo from '../Types/EndpointInfo';
 import { settingsStore } from './SettingsService';
 import { Status, StatusDescription, StoreConstants } from '../Types/Constants';
+import type Settings from '../Types/Settings';
 
 export const endpoitStatusStore = writable({});
 export const endpoitStatusHistory = writable({});
 
 let timeouts = {};
 
-export function addEndpoint(endpoint) {
+export function addEndpoint(endpoint: EndpointInfo) {
     updateStatusRecursive(endpoint);
 }
 
-export function removeEndpoint(endpoint) {
+export function removeEndpoint(endpoint: EndpointInfo) {
     clearTimeout(timeouts[endpoint.description]);
 }
 
-export function updateStatus(endpoint) {
+export function updateStatus(endpoint: EndpointInfo) {
     clearTimeout(timeouts[endpoint.description]);
     updateStatusRecursive(endpoint);
 }
 
-export function historyClear(endpointDescription) {
+export function historyClear(endpointDescription: string) {
     endpoitStatusHistory.update((statuses) => {
         statuses[endpointDescription] = [];
         return statuses;
     });
 }
 
-async function updateStatusRecursive(endpoint) {
-    let prevStatus = get(endpoitStatusStore)[endpoint.description]?.status;
+async function updateStatusRecursive(endpoint :EndpointInfo) {
+    let prevStatus :Status= get(endpoitStatusStore)[endpoint.description]?.status;
     setEndpointStatus(endpoint, Status.Pending);
-    let status;
+    let status :Status;
     let errorDetails = {};
     try {
         let response = await fetch(endpoint.url);
@@ -63,14 +65,14 @@ async function updateStatusRecursive(endpoint) {
 
 
 //Helper Functions
-function setEndpointStatus(endpoint, status, errorDetails = {}) {
+function setEndpointStatus(endpoint: EndpointInfo, status :Status, errorDetails = {}) {
     endpoitStatusStore.update((statuses) => {
         statuses[endpoint.description] = {status, ...errorDetails, lastChecked: new Date() };
         return statuses;
     });
 }
 
-function keepStatusToHistory(endpoint, status, errorDetails = {}) {
+function keepStatusToHistory(endpoint :EndpointInfo, status :Status, errorDetails = {}) {
     if (status == Status.Pending) {
         return;//we don't store pending status
     }
@@ -86,7 +88,7 @@ function keepStatusToHistory(endpoint, status, errorDetails = {}) {
 }
 
 
-function showNotificationIfNeeded(endpoint, prevStatus, newStatus, settings) {
+function showNotificationIfNeeded(endpoint :EndpointInfo, prevStatus :Status, newStatus :Status, settings :Settings) {
     if (!prevStatus) return;    //first time retrieving this endpoint's status
 
     if (prevStatus == newStatus) return;    //no status change
@@ -103,7 +105,7 @@ function showNotificationIfNeeded(endpoint, prevStatus, newStatus, settings) {
 }
 
 
-function settingsForEndpoint(endpoint) {
+function settingsForEndpoint(endpoint :EndpointInfo) :Settings {
     const settings = get(settingsStore);
     
     return settings[endpoint.description] || settings[StoreConstants.DEFAULT_SETTINGS_ID];

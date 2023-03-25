@@ -1,11 +1,10 @@
-<script>
+<script lang="ts">
     //----- <Methods Imports> -----//
-    import { createEventDispatcher } from 'svelte';
     //----- </Methods Imports> -----//
 
     //----- <Internal Imports> -----//
     import EndpointRow from './EndpointRow.svelte';
-    import {appStore} from '../Store.js';
+    import {endpoitsStore} from '../Services/EndpointsService';
     //----- </Internal Imports> -----//
 </script>
 
@@ -24,7 +23,7 @@
         </tr>
     </thead>
     <tbody>
-        {#each $appStore as endpoint (endpoint.description)}
+        {#each $endpoitsStore as endpoint (endpoint.description)}
             <EndpointRow {endpoint}
             on:settingsClicked
             on:historyClicked/>

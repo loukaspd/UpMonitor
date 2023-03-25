@@ -1,28 +1,31 @@
-<script>
+<script lang="ts">
     import { onDestroy, createEventDispatcher } from 'svelte';
-    const dispatch = createEventDispatcher();
+    const evntSettingsDispatcher = createEventDispatcher<{ settingsClicked: string }>();
+    const evntHistoryDispatcher = createEventDispatcher<{ historyClicked: string }>();
     //----- <Internal Imports> -----//
+    import EndpointStatus from '../Types/EndpointStatus'
+    import type EndpointInfo from '../Types/EndpointInfo';
     import {deleteItem} from '../Services/EndpointsService';
     import {endpoitStatusStore, addEndpoint, updateStatus} from '../Services/EndpointStatusService';
     import {settingsStore} from '../Services/SettingsService'
     import {Status} from '../Types/Constants';
-    import {dateToStringHhMmSs} from '../Helpers/JsHelpers.js'
+    import {dateToStringHhMmSs} from '../Helpers/JsHelpers'
     //----- </Internal Imports> -----//
 
     //----- <Exported Variables> -----//
-    export let endpoint;
+    export let endpoint :EndpointInfo;
     //----- </Exported Variables> -----//
 
     addEndpoint(endpoint);
 
-    let endpointStatus;
+    let endpointStatus :EndpointStatus;
     const endpointStatusUnsubscr = endpoitStatusStore.subscribe((statuses) => {
-        endpointStatus = statuses[endpoint.description];
+        endpointStatus = statuses[endpoint.description] as EndpointStatus;
         if (!endpointStatus) {
-            endpointStatus = {status: Status.Pending};
+            endpointStatus = new EndpointStatus();
         }
     });
-    let settingsActive;
+    let settingsActive :boolean;
     const settingsUnsubscr = settingsStore.subscribe((settings) => {
         settingsActive = !!settings[endpoint.description];
     })
@@ -32,11 +35,11 @@
     }
 
     function settingsClicked() {
-        dispatch('settingsClicked', endpoint.description);
+        evntSettingsDispatcher('settingsClicked', endpoint.description);
     }
 
     function showHistory() {
-        dispatch('historyClicked', endpoint.description);
+        evntHistoryDispatcher('historyClicked', endpoint.description);
     }
 
     //----- Ui Callbacks -----//
@@ -94,14 +97,14 @@
         {/if}
     </td>
     <td class="single line">
-        <a on:click={uiOnDeleteClicked} href="#" class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
+        <a on:click={uiOnDeleteClicked} href={'#'} class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE5C9;</i></a>
 
-        <a on:click={uiOnSettingsClicked} href="#" class="settings" title="Settings" data-toggle="tooltip"
+        <a on:click={uiOnSettingsClicked} href={'#'} class="settings" title="Settings" data-toggle="tooltip"
             class:gray="{!settingsActive}"><i class="material-icons">settings</i></a>
 
-        <a on:click={uiOnRefreshClicked} href="#" class="refresh" title="Refresh" data-toggle="tooltip"><i class="material-icons">&#xe5d5;</i></a>
+        <a on:click={uiOnRefreshClicked} href={'#'} class="refresh" title="Refresh" data-toggle="tooltip"><i class="material-icons">&#xe5d5;</i></a>
 
-        <a on:click={uiOnHistoryClicked} href="#" class="settings" title="History" data-toggle="tooltip" style="color:black;"><i class="material-icons">work_history</i></a>
+        <a on:click={uiOnHistoryClicked} href={'#'} class="settings" title="History" data-toggle="tooltip" style="color:black;"><i class="material-icons">work_history</i></a>
     </td>
 </tr>
 
