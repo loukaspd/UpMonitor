@@ -8,7 +8,7 @@
     import {deleteItem} from '../Services/EndpointsService';
     import {endpoitStatusStore, addEndpoint, updateStatus} from '../Services/EndpointStatusService';
     import {settingsStore} from '../Services/SettingsService'
-    import {Status} from '../Types/Constants';
+    import {Status} from '../Auxiliaries/Constants';
     import {dateToStringHhMmSs} from '../Helpers/JsHelpers'
     //----- </Internal Imports> -----//
 

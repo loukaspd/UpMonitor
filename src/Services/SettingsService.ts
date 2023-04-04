@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store';
 import Settings from "../Types/Settings";
-import { StoreConstants } from '../Types/Constants';
+import { StoreConstants } from '../Auxiliaries/Constants';
 
 export const settingsStore = writable({});
 

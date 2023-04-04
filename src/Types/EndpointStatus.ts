@@ -1,4 +1,4 @@
-import { Status } from "./Constants"
+import { Status } from "../Auxiliaries/Constants"
 
 export default class EndpointStatus {
     public status :Status = Status.Pending;

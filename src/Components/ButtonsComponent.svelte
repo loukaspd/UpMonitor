@@ -2,7 +2,7 @@
     //----- <Methods Imports> -----//
     import { createEventDispatcher } from 'svelte';
     const dispatch = createEventDispatcher();
-    import {StoreConstants} from '../Types/Constants';
+    import {StoreConstants} from '../Auxiliaries/Constants';
     //----- </Methods Imports> -----//
     
     

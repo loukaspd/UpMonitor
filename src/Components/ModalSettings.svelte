@@ -1,6 +1,6 @@
 <script lang="ts">
     import Settings from '../Types/Settings';
-    import { UiConstants, StoreConstants } from '../Types/Constants';
+    import { UiConstants, StoreConstants } from '../Auxiliaries/Constants';
     import { settingsStore, saveSettings, deleteSettings } from '../Services/SettingsService';
     
     let settingId = '';
@@ -37,9 +37,17 @@
 
   <div class="content">
     <form class="ui form">
-      <div class="field">
-        <label for="refreshIntervalSec">Refresh Interval (Sec)</label>
-        <input bind:value={settings.refreshIntervalSec} type="number" class="form-control" id="refreshIntervalSec" placeholder="Description">
+      <div class="fields">
+        <div class="six wide field">
+          <label for="refreshIntervalSec">Refresh Interval (Sec)</label>
+          <input bind:value={settings.refreshIntervalSec} type="number" class="form-control" id="refreshIntervalSec" placeholder="Interval">
+        </div>
+        <div class="two wide field">
+          <select class="ui fluid search dropdown" bind:value={https}>
+            <option value="minutes"></option>
+            <option value="http://">http://</option>
+          </select>
+        </div>
       </div>
       <div class="field">
         <div class="ui checkbox">

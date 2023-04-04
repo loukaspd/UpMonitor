@@ -3,7 +3,7 @@ import { get, writable } from 'svelte/store';
 
 import type EndpointInfo from '../Types/EndpointInfo';
 import { settingsStore } from './SettingsService';
-import { Status, StatusDescription, StoreConstants } from '../Types/Constants';
+import { Status, StatusDescription, StoreConstants } from '../Auxiliaries/Constants';
 import type Settings from '../Types/Settings';
 
 export const endpoitStatusStore = writable({});

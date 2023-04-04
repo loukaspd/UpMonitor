@@ -4,6 +4,11 @@ export enum Status {
     Error =3
 };
 
+export enum SettingDurationType {
+    Seconds =1,
+    Minutes =2
+}
+
 export const StatusDescription = {
     1: "Pending",
     2: "Success",

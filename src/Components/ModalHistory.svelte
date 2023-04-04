@@ -1,6 +1,6 @@
 <script lang="ts">
     //<imports>
-    import { UiConstants, Status } from '../Types/Constants';
+    import { UiConstants, Status } from '../Auxiliaries/Constants';
     import {endpoitStatusHistory, historyClear} from '../Services/EndpointStatusService';
     import {dateToStringHhMmSs} from '../Helpers/JsHelpers'
     //</imports>

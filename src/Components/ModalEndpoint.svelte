@@ -1,7 +1,7 @@
 <script lang="ts">
     import EndpointInfo from '../Types/EndpointInfo';
     import { saveEndpoint, endpointExists } from '../Services/EndpointsService';
-    import { UiConstants } from '../Types/Constants';
+    import { UiConstants } from '../Auxiliaries/Constants';
     import { showErrorToast, showSuccessToast } from '../Auxiliaries/UiHelpers'
     
     let https = '';
