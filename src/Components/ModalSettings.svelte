@@ -1,6 +1,6 @@
 <script lang="ts">
     import Settings from '../Types/Settings';
-    import { UiConstants, StoreConstants } from '../Auxiliaries/Constants';
+    import { UiConstants, StoreConstants, SettingIntervalType } from '../Auxiliaries/Constants';
     import { settingsStore, saveSettings, deleteSettings } from '../Services/SettingsService';
     
     let settingId = '';
@@ -12,6 +12,7 @@
       if (settings == null) {
         settings = new Settings();
       }
+      console.log(settings);
       window.$(UiConstants.ModalSettings_IdSelector).modal('show');
     }
 
@@ -37,15 +38,15 @@
 
   <div class="content">
     <form class="ui form">
+      <h4 class="ui dividing header">Duration</h4>
       <div class="fields">
         <div class="six wide field">
-          <label for="refreshIntervalSec">Refresh Interval (Sec)</label>
-          <input bind:value={settings.refreshIntervalSec} type="number" class="form-control" id="refreshIntervalSec" placeholder="Interval">
+          <input bind:value={settings.refreshInterval} type="number" class="form-control" id="refreshIntervalSec" placeholder="Interval">
         </div>
-        <div class="two wide field">
-          <select class="ui fluid search dropdown" bind:value={https}>
-            <option value="minutes"></option>
-            <option value="http://">http://</option>
+        <div class="three wide field">
+          <select class="ui fluid search dropdown" bind:value={settings.intervalType}>
+            <option value={SettingIntervalType.Minutes}>Minutes</option>
+            <option value={SettingIntervalType.Seconds}>Seconds</option>
           </select>
         </div>
       </div>

@@ -5,6 +5,7 @@
 - [ModalEndpoint] autofill http-https on blur
 - [ModalHistory] history updates real-time
 - [ModalHistory] introduce clear history functionality
+- [Settings] select interval between minutes / seconds
 
 ## [0.0.5] - 2023-03-07
 ### Added

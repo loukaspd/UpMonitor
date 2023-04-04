@@ -13,8 +13,6 @@ export async function loadSettings() {
 
     if (!allSettings[StoreConstants.DEFAULT_SETTINGS_ID]) {
         let defaultS = new Settings();
-        defaultS.refreshIntervalSec = 60;
-        defaultS.notifyOnStatusChange = true;
         allSettings[StoreConstants.DEFAULT_SETTINGS_ID] = defaultS;
     }
     settingsStore.set(allSettings);

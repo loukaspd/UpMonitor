@@ -60,7 +60,7 @@ async function updateStatusRecursive(endpoint :EndpointInfo) {
     showNotificationIfNeeded(endpoint, prevStatus, status, settings);
 
     //Recurse
-    timeouts[endpoint.description] = setTimeout(async () => await updateStatusRecursive(endpoint), settings.refreshIntervalSec * 1000);
+    timeouts[endpoint.description] = setTimeout(async () => await updateStatusRecursive(endpoint), settings.refreshIntervalSeconds() * 1000);
 }
 
 
@@ -106,7 +106,6 @@ function showNotificationIfNeeded(endpoint :EndpointInfo, prevStatus :Status, ne
 
 
 function settingsForEndpoint(endpoint :EndpointInfo) :Settings {
-    const settings = get(settingsStore);
-    
+    const settings = get(settingsStore);    
     return settings[endpoint.description] || settings[StoreConstants.DEFAULT_SETTINGS_ID];
 }

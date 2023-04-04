@@ -4,9 +4,9 @@ export enum Status {
     Error =3
 };
 
-export enum SettingDurationType {
-    Seconds =1,
-    Minutes =2
+export enum SettingIntervalType {
+    Seconds = 'Seconds',
+    Minutes = 'Minutes'
 }
 
 export const StatusDescription = {
