@@ -1,4 +1,4 @@
-## [0.0.6] - Pending
+## [0.0.6] - 2023-04-05
 ### Changed
 - include (some) external libraries in app
 - [UI] move buttons above table
