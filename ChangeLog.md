@@ -1,3 +1,7 @@
+## [PENDING] - 
+### Added
+- Minimize to tray functionality
+
 ## [0.0.6] - 2023-04-05
 ### Changed
 - include (some) external libraries in app

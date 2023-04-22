@@ -1,5 +1,5 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, ipcMain, Notification } = require('electron');
+const { app, BrowserWindow, ipcMain, Notification, Tray, Menu } = require('electron');
 const {autoUpdater} = require('electron-updater');
 const path = require('path');
 const serve = require('electron-serve');
@@ -45,6 +45,32 @@ function createWindow() {
     // Open the DevTools and also disable Electron Security Warning.
     // process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = true;
     // mainWindow.webContents.openDevTools();
+
+    //########## <LOUKAS - Minimize-to-Tray>
+    mainWindow.on('minimize',function(event){
+        event.preventDefault();
+        mainWindow.hide();
+    });
+
+    var tray = new Tray(path.join(__dirname, 'public/favicon.png'));
+
+    tray.addListener('double-click', (e,b) => {mainWindow.show()});
+
+    tray.setContextMenu(Menu.buildFromTemplate([
+        {
+          label: 'Show App', click: function () {
+            
+          }
+        },
+        {
+          label: 'Quit', click: function () {
+            isQuiting = true;
+            app.quit();
+          }
+        }
+      ]));
+
+    //########## </LOUKAS - Minimize-to-Tray>
 
     // Emitted when the window is closed.
     mainWindow.on('closed', function () {
