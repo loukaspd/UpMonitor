@@ -18,6 +18,15 @@ export async function loadSettings() {
     settingsStore.set(allSettings);
 }
 
+export async function setSettings(settings:any) {
+    if (!settings[StoreConstants.DEFAULT_SETTINGS_ID]) {
+        let defaultS = new Settings();
+        settings[StoreConstants.DEFAULT_SETTINGS_ID] = defaultS;
+    }
+    settingsStore.set(allSettings);
+    localStorage.setItem('settings', JSON.stringify(allSettings));
+}
+
 export async function saveSettings(id: string, item: Settings) {
     allSettings[id] = item;
 

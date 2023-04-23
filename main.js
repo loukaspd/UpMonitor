@@ -1,9 +1,10 @@
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, ipcMain, Notification, Tray, Menu } = require('electron');
+const { app, BrowserWindow, ipcMain, Notification, Tray, Menu, dialog } = require('electron');
 const {autoUpdater} = require('electron-updater');
 const path = require('path');
 const serve = require('electron-serve');
 const loadURL = serve({ directory: 'public' });
+const fs = require('fs');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -100,6 +101,36 @@ function createWindow() {
             , body: `Status changed from ${statusInfo.prevStatus} to ${statusInfo.currentStatus}`
         })
         .show()
+    })
+
+    //Custom_Code: Save file with Dialog picker
+    ipcMain.on('save-to-file-with-picker', (event, fileContent) => {
+        const filePath = dialog.showSaveDialogSync(mainWindow, {
+            title: 'save endpoints',
+            properties: ['openFile', 'promptToCreate']
+        });
+        if (!filePath) {
+            return;
+        }
+
+        fs.writeFile(filePath, fileContent, function (err) {
+            if (err) throw err;
+        });
+    })
+
+    //Custom_Code: Load File with picker
+    ipcMain.on('load-file-with-picker', (event) => {
+        let filePath = dialog.showOpenDialogSync(mainWindow, {
+            title: 'load endpoints',
+            properties: ['openFile']
+        });
+        if (!filePath || !filePath.length) {
+            return;
+        }
+        filePath = filePath[0];
+
+        const fileContent = fs.readFileSync(filePath, 'utf8');
+        mainWindow.webContents.send('load-file-selected', {filePath, fileContent});
     })
 }
 

@@ -7,6 +7,12 @@
     
     
     //----- <Ui-Callbacks> ----- //
+    function uiOnUploadClicked() {
+        dispatch('loadClicked');
+    }
+    function uiOnDownloadClicked() {
+        dispatch('downloadClicked');
+    }
     function uiOnAddClicked() {
         dispatch('addClicked');
     }
@@ -23,16 +29,29 @@
 <!-- ######################################## -->
 <!-- Render  -->
 <!-- ######################################## -->
-<div class="flex-container">
-    <button class="ui right floated small negative labeled icon button" on:click={uiOnDeleteAllClicked}>
-        <i class="close icon"></i> Delete All
-    </button>
-    <button class="ui right floated small labeled icon button" on:click={uiOnSettingsClicked}>
-        <i class="edit icon"></i> Settings
-    </button>
-    <button class="ui right floated small primary labeled icon button" on:click={uiOnAddClicked}>
-        <i class="plus icon"></i> Add
-    </button>
+<div class="flex-container" style="justify-content:flex-end;">
+
+    <div class="flex-container" style="flex-grow:1">
+        <button class="ui small labeled icon button" on:click={uiOnDownloadClicked}>
+            <i class="save icon"></i> Save
+        </button>
+
+        <button class="ui small primary labeled icon button" on:click={uiOnUploadClicked}>
+            <i class="upload icon"></i> Load
+        </button>
+    </div>
+
+    <div class="flex-container">
+        <button class="ui small negative labeled icon button" on:click={uiOnDeleteAllClicked}>
+            <i class="close icon"></i> Delete All
+        </button>
+        <button class="ui small labeled icon button" on:click={uiOnSettingsClicked}>
+            <i class="edit icon"></i> Settings
+        </button>
+        <button class="ui small primary labeled icon button" on:click={uiOnAddClicked}>
+            <i class="plus icon"></i> Add
+        </button>
+    </div>
 </div>
 
 
@@ -42,7 +61,5 @@
 <style>
     .flex-container {
         display: flex;
-
-        justify-content:flex-end;
     }
 </style>

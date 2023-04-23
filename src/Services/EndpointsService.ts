@@ -19,6 +19,11 @@ export async function loadEndpoints() {
     endpoitsStore.set(endPoints);
 }
 
+export async function setEndpoitns(endpoints: EndpointInfo[]) {
+    endpoitsStore.set(endpoints);
+    localStorage.setItem('endpoints', JSON.stringify(endpoints));
+}
+
 export async function deleteItem(item: EndpointInfo) {
     //localStorage
     const endpoints = get(endpoitsStore).filter(x => x !== item);

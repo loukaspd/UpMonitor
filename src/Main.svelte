@@ -8,6 +8,7 @@
     import ModalHistory from "./Components/ModalHistory.svelte";
     import {loadEndpoints, deleteAll} from './Services/EndpointsService';
     import {loadSettings} from './Services/SettingsService';
+    import StorageService from './Services/StorageService';
     //----- </Internal> -----//
 
     let modalEndpoint: ModalEndpoint;
@@ -17,6 +18,12 @@
     onMount(async () => {
         await loadSettings();
 		await loadEndpoints();
+
+        window.electronAPI.onLoadFileSelected((data:any) => {
+            //const filePath :string = data.filePath;
+            const fileContent :string = data.fileContent;
+            StorageService.loadEnviroment(fileContent);
+        })
 	});
 
     function uiOnAddClicked() {
@@ -29,6 +36,14 @@
 
     function uiOnHistoryClicked(event: CustomEvent<string>) {
         modalHistory.showModal(event.detail);
+    }
+
+    async function uiOnDownloadClicked() {
+        await StorageService.saveEnvironment();
+    }
+
+    function uiOnLoadClicked() {
+        window.electronAPI.loadFileWithPicker();
     }
 
     function uiOnDeleteAllClicked() {
@@ -62,6 +77,8 @@
         on:addClicked={uiOnAddClicked}
         on:settingsClicked={uiOnSettingsClicked}
         on:deleteAllClicked={uiOnDeleteAllClicked}
+        on:downloadClicked={uiOnDownloadClicked}
+        on:loadClicked={uiOnLoadClicked}
     />
 
     <EndpointsTable

@@ -1,6 +1,7 @@
 ## [PENDING] - 
 ### Added
 - Minimize to tray functionality
+- Save & Load functionality
 
 ## [0.0.6] - 2023-04-05
 ### Changed
