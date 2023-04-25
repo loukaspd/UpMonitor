@@ -1,4 +1,4 @@
-## [PENDING] - 
+## [0.1.0] - 2023-04-23
 ### Added
 - Minimize to tray functionality
 - Save & Load functionality

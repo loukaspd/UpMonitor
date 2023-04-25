@@ -1,6 +1,6 @@
 {
   "name": "up-monitor",
-  "version": "0.0.6",
+  "version": "0.1.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/loukaspd/UpMonitor.git"
@@ -35,12 +35,16 @@
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "dependencies": {
+    "@types/uuid": "^9.0.1",
     "electron-serve": "^1.1.0",
-    "electron-updater": "^5.3.0"
+    "electron-updater": "^5.3.0",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^23.0.2",
     "@rollup/plugin-node-resolve": "^15.0.1",
+    "@rollup/plugin-typescript": "^8.0.0",
+    "@tsconfig/svelte": "^2.0.0",
     "concurrently": "^7.5.0",
     "electron": "^21.2.0",
     "electron-builder": "^23.6.0",
@@ -51,12 +55,10 @@
     "rollup-plugin-terser": "^7.0.2",
     "sirv-cli": "^2.0.2",
     "svelte": "^3.52.0",
-    "wait-on": "^6.0.1",
     "svelte-check": "^2.0.0",
     "svelte-preprocess": "^4.0.0",
-    "@rollup/plugin-typescript": "^8.0.0",
-    "typescript": "^4.0.0",
     "tslib": "^2.0.0",
-    "@tsconfig/svelte": "^2.0.0"
+    "typescript": "^4.0.0",
+    "wait-on": "^6.0.1"
   }
 }
