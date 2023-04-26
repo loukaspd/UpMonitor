@@ -10,6 +10,15 @@ const fs = require('fs');
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
+//Custom_Code: <Limit-to-single-instance>
+const gotTheLock = app.requestSingleInstanceLock();
+if (!gotTheLock) {
+    app.quit();
+    return;
+}
+
+//Custom_Code: </Limit-to-single-instance>
+
 function isDev() {
     return !app.isPackaged;
 }
@@ -154,5 +163,14 @@ app.on('activate', function () {
     // dock icon is clicked and there are no other windows open.
     if (mainWindow === null) createWindow()
 });
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
+
+//Custom_Code: Limit to single instance
+app.on('second-instance', (event, commandLine, workingDirectory) => {
+    // Someone tried to run a second instance, we should focus our window.
+    if (mainWindow) {
+      if (mainWindow.isMinimized()) {
+        mainWindow.restore();
+      }
+      mainWindow.focus();
+    }
+})

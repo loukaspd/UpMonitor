@@ -1,3 +1,7 @@
+## [0.1.1] - PENDING
+### Added
+- Limit to single instance
+
 ## [0.1.0] - 2023-04-23
 ### Added
 - Minimize to tray functionality
