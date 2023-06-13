@@ -1,4 +1,6 @@
-## [0.1.1] - PENDING
+## [Pending]
+
+## [0.1.1] - 2023-06-13
 ### Added
 - Limit to single instance
 
