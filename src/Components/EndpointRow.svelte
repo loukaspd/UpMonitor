@@ -42,6 +42,20 @@
         evntHistoryDispatcher('historyClicked', endpoint.description);
     }
 
+    function showResponse() {
+        window.$.modal({
+            title: '',
+            content: endpointStatus.description,
+            class: 'small',
+            closable  : true,
+            actions: [
+            {
+                text: 'Ok',
+                class: 'ok',
+            }]
+        }).modal('show');
+    }
+
     //----- Ui Callbacks -----//
     function uiOnDeleteClicked() {
         deleteItem(endpoint);
@@ -57,6 +71,10 @@
 
     function uiOnHistoryClicked() {
         showHistory();
+    }
+
+    function uiOnShowResponseClicked() {
+        showResponse();
     }
 
     //----- <Svente-LifeCycle> -----//
@@ -90,7 +108,7 @@
             <span>
                 <i class="icon times"></i> Error
                 <br/>StatusCode: {endpointStatus.statusCode || '-'}
-                <br/>Description: {endpointStatus.description}
+                <br/><a href={'#'} on:click={uiOnShowResponseClicked}>Response</a>
             </span>
         {:else if endpointStatus.status === Status.Success}
             <i class="icon checkmark"></i> Success

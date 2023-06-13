@@ -2,6 +2,9 @@
 ### Added
 - Limit to single instance
 
+### Changed
+- [EndpointRow] show complete response in modal
+
 ## [0.1.0] - 2023-04-23
 ### Added
 - Minimize to tray functionality
