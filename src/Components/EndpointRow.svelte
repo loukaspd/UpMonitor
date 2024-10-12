@@ -7,7 +7,7 @@
     import type EndpointInfo from '../Types/EndpointInfo';
     import {deleteItem} from '../Services/EndpointsService';
     import {endpoitStatusStore, addEndpoint, updateStatus} from '../Services/EndpointStatusService';
-    import {settingsStore} from '../Services/SettingsService'
+    import {deleteSettings, settingsStore} from '../Services/SettingsService'
     import {Status} from '../Auxiliaries/Constants';
     import {dateToStringHhMmSs} from '../Helpers/JsHelpers'
     //----- </Internal Imports> -----//
@@ -59,6 +59,7 @@
     //----- Ui Callbacks -----//
     function uiOnDeleteClicked() {
         deleteItem(endpoint);
+        deleteSettings(endpoint.description);
     }
 
     function uiOnRefreshClicked() {
