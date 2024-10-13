@@ -1,6 +1,7 @@
 ## [Pending]
 ### Added
 - [EndpointStatus] add redirect info
+- [EndpointStatus] add next check date
 
 ### Changed
 - [EndpointStatus] refactor to typed approach

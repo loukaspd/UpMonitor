@@ -92,17 +92,19 @@
     <td><b>{endpoint.description}</b></td>
     <td>
         <a href="{endpoint.url}" target="_blank" rel="noreferrer">{endpoint.url}</a>
-        <br>
         <!-- Redirect Info -->
         {#if endpointStatus.redirectDetails.redirected}
+            <br>
             <i class="material-icons">warning</i>
             <span>redirected to: {endpointStatus.redirectDetails.url}</span>
         {/if}
         <!-- Last Checked-->
         {#if endpointStatus.status !== Status.Pending}
-            <p>last checked: {dateToStringHhMmSs(endpointStatus.lastChecked)}</p>
+            <br>
+            <span>last checked: {dateToStringHhMmSs(endpointStatus.lastChecked)}</span>
+            <br>
+            <span>next check: {dateToStringHhMmSs(endpointStatus.nextCheck)}</span>
         {/if}
-        
     </td>
     <td 
     class:positive="{endpointStatus.status === Status.Success}"

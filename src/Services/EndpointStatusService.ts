@@ -1,6 +1,7 @@
 //This Service is responsible for checking endpoint status and updating the store
 import { get, Writable, writable } from 'svelte/store';
 
+import { JsHelpers } from '../Helpers/JsHelpers';
 import type EndpointInfo from '../Types/EndpointInfo';
 import { settingsStore } from './SettingsService';
 import { Status, StatusDescription, StoreConstants } from '../Auxiliaries/Constants';
@@ -10,7 +11,7 @@ import EndpointStatus, { ErrorDetails, RedirectDetails } from '../Types/Endpoint
 export const endpoitStatusStore :Writable<{ [id: string] : EndpointStatus }> = writable({});
 export const endpoitStatusHistory = writable({});
 
-let timeouts = {};
+let timeouts:{[id: string] : NodeJS.Timeout} = {};
 
 export function addEndpoint(endpoint: EndpointInfo) {
     updateStatusRecursive(endpoint);
@@ -35,6 +36,7 @@ export function historyClear(endpointDescription: string) {
 async function updateStatusRecursive(endpoint :EndpointInfo) {
     let prevStatus :Status= get(endpoitStatusStore)[endpoint.description]?.status;
     setEndpointStatus(endpoint, new EndpointStatus({status:Status.Pending}));
+    const settings = settingsForEndpoint(endpoint);
     
     let endpointStatus = new EndpointStatus();
     try {
@@ -53,11 +55,11 @@ async function updateStatusRecursive(endpoint :EndpointInfo) {
         endpointStatus.status = Status.Error;
         endpointStatus.errorDetails = new ErrorDetails({description: error.message});
     }
-    setEndpointStatus(endpoint, status, redirectDetails, errorDetails);
-    keepStatusToHistory(endpoint, status, errorDetails);
+    endpointStatus.nextCheck = JsHelpers.addSecondsToDate(new Date(), settings.refreshIntervalSeconds());
 
+    setEndpointStatus(endpoint, endpointStatus);
+    keepStatusToHistory(endpoint, endpointStatus.status, endpointStatus.errorDetails);
 
-    const settings = settingsForEndpoint(endpoint);
     showNotificationIfNeeded(endpoint, prevStatus, endpointStatus.status, settings);
 
     //Recurse

@@ -3,6 +3,7 @@ import { Status } from "../Auxiliaries/Constants"
 export default class EndpointStatus {
     public status :Status = Status.Pending;
     public lastChecked :Date;
+    public nextCheck: Date;
     public redirectDetails: RedirectDetails;
     //errorDetails
     public errorDetails? :ErrorDetails;
@@ -12,6 +13,7 @@ export default class EndpointStatus {
     constructor(init?:Partial<EndpointStatus>) {
         this.status = init?.status ?? Status.Pending;
         this.lastChecked = init?.lastChecked ?? new Date();
+        this.nextCheck = init?.nextCheck ?? new Date();
         this.redirectDetails = init?.redirectDetails ?? new RedirectDetails();
         this.errorDetails = init?.errorDetails ?? null;
         this.history = [...this.history ?? []];
