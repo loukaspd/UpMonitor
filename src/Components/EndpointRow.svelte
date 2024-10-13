@@ -4,9 +4,10 @@
     const evntHistoryDispatcher = createEventDispatcher<{ historyClicked: string }>();
     const evntEditDispatcher = createEventDispatcher<{ editClicked: string }>();
     //----- <Internal Imports> -----//
+    import {MoveDirection} from '../Auxiliaries/Constants';
     import EndpointStatus from '../Types/EndpointStatus'
     import type EndpointInfo from '../Types/EndpointInfo';
-    import {deleteItem} from '../Services/EndpointsService';
+    import {changeOrder, deleteItem} from '../Services/EndpointsService';
     import {endpoitStatusStore, addEndpoint, updateStatus} from '../Services/EndpointStatusService';
     import {deleteSettings, settingsStore} from '../Services/SettingsService'
     import {Status} from '../Auxiliaries/Constants';
@@ -15,6 +16,8 @@
 
     //----- <Exported Variables> -----//
     export let endpoint :EndpointInfo;
+    export let firstItem: boolean;
+    export let lastItem: boolean;
     //----- </Exported Variables> -----//
 
     addEndpoint(endpoint);
@@ -87,6 +90,14 @@
         editClicked();
     }
 
+    function uiOnMoveUpClicked() {
+        changeOrder(endpoint.id, MoveDirection.Up);
+    }
+
+    function uiOnMoveDownClicked() {
+        changeOrder(endpoint.id, MoveDirection.Down);
+    }
+
     //----- <Svente-LifeCycle> -----//
     onDestroy(endpointStatusUnsubscr);
     onDestroy(settingsUnsubscr);
@@ -98,6 +109,17 @@
 <!-- Render  -->
 <!-- ######################################## -->
 <tr>
+    <td class="collapsing">
+        <div class="ui fitted slider checkbox">
+            {#if firstItem == false}
+                <a on:click={uiOnMoveUpClicked} href={'#'} title="moveUp" data-toggle="tooltip"><i class="material-icons">arrow_upward</i></a>
+            {/if}
+
+            {#if lastItem == false}
+                <a on:click={uiOnMoveDownClicked} href={'#'} title="moveUp" data-toggle="tooltip"><i class="material-icons">arrow_downward</i></a>
+            {/if}
+        </div>
+    </td>
     <td><b>{endpoint.description}</b></td>
     <td>
         <a href="{endpoint.url}" target="_blank" rel="noreferrer">{endpoint.url}</a>

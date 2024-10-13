@@ -1,6 +1,7 @@
 //This Service is responsible for syncing endpoints to localstorage and appStore
 import { writable, get } from 'svelte/store';
 import EndpointInfo from '../Types/EndpointInfo';
+import { MoveDirection } from '../Auxiliaries/Constants';
 
 export const endpoitsStore = writable<EndpointInfo[]>([]);
 
@@ -35,6 +36,22 @@ export async function deleteAll() {
     localStorage.removeItem('endpoints');
     //Store
     endpoitsStore.set([]);
+}
+
+export async function changeOrder(identifier: string, direction: MoveDirection) {
+    //get item index
+    let allItems = get(endpoitsStore);
+    const item = allItems.find(x => x.id === identifier);
+    const index = allItems.indexOf(item);
+    //re-order the item
+    if (direction === MoveDirection.Up) {
+        [allItems[index], allItems[index-1]] = [allItems[index-1], allItems[index]];
+    }
+    else {
+        [allItems[index], allItems[index+1]] = [allItems[index+1], allItems[index]];
+    }
+    //update the store
+    setEndpoitns([...allItems]);
 }
 
 function upsertEndpoint(allEndpoints: EndpointInfo[], endpoint: EndpointInfo) : EndpointInfo[] {

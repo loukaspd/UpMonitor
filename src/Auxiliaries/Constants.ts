@@ -9,6 +9,11 @@ export enum SettingIntervalType {
     Minutes = 'Minutes'
 }
 
+export enum MoveDirection {
+    Up = 1,
+    Down = 2
+}
+
 export const StatusDescription = {
     1: "Pending",
     2: "Success",

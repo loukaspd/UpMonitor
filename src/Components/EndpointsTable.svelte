@@ -15,7 +15,7 @@
 <table class="ui compact celled table">
     <thead>
         <tr>
-            <!-- <th>#</th> -->
+            <th>#</th>
             <th>Name</th>						
             <th>Url</th>
             <th>Status</th>
@@ -23,8 +23,11 @@
         </tr>
     </thead>
     <tbody>
-        {#each $endpoitsStore as endpoint (endpoint.id)}
-            <EndpointRow {endpoint}
+        {#each $endpoitsStore as endpoint, index (endpoint.id)}
+            <EndpointRow 
+            {endpoint}
+            firstItem={index==0}
+            lastItem={index==$endpoitsStore.length-1}
             on:settingsClicked
             on:historyClicked
             on:editClicked/>

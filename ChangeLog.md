@@ -3,6 +3,7 @@
 - [Endpoint] add Edit functionality
 - [Endpoint] add redirect info
 - [Endpoint] add next check date
+- [List] add ordering functionality
 
 ### Changed
 - [EndpointStatus] refactor to typed approach
