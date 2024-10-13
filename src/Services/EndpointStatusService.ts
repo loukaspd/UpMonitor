@@ -1,12 +1,13 @@
 //This Service is responsible for checking endpoint status and updating the store
-import { get, writable } from 'svelte/store';
+import { get, Writable, writable } from 'svelte/store';
 
 import type EndpointInfo from '../Types/EndpointInfo';
 import { settingsStore } from './SettingsService';
 import { Status, StatusDescription, StoreConstants } from '../Auxiliaries/Constants';
 import type Settings from '../Types/Settings';
+import EndpointStatus, { ErrorDetails } from '../Types/EndpointStatus';
 
-export const endpoitStatusStore = writable({});
+export const endpoitStatusStore :Writable<{ [id: string] : EndpointStatus }> = writable({});
 export const endpoitStatusHistory = writable({});
 
 let timeouts = {};
@@ -35,7 +36,7 @@ async function updateStatusRecursive(endpoint :EndpointInfo) {
     let prevStatus :Status= get(endpoitStatusStore)[endpoint.description]?.status;
     setEndpointStatus(endpoint, Status.Pending);
     let status :Status;
-    let errorDetails = {};
+    let errorDetails: ErrorDetails = null;
     try {
         let response = await fetch(endpoint.url);
         if (response.ok) {
@@ -43,14 +44,14 @@ async function updateStatusRecursive(endpoint :EndpointInfo) {
         }
         else {
             status = Status.Error;
-            errorDetails = {statusCode: response.status, description: await response.text()};
+            errorDetails = new ErrorDetails({statusCode: response.status, description: await response.text()});
         }
         status = response.ok ? Status.Success : Status.Error;
     }
     catch(error) {
         console.log(error);
         status = Status.Error;
-        errorDetails = {description: error.message};
+        errorDetails = new ErrorDetails({description: error.message});
     }
     setEndpointStatus(endpoint, status, errorDetails);
     keepStatusToHistory(endpoint,status, errorDetails);
@@ -65,9 +66,9 @@ async function updateStatusRecursive(endpoint :EndpointInfo) {
 
 
 //Helper Functions
-function setEndpointStatus(endpoint: EndpointInfo, status :Status, errorDetails = {}) {
+function setEndpointStatus(endpoint: EndpointInfo, status :Status, errorDetails :ErrorDetails = null) {
     endpoitStatusStore.update((statuses) => {
-        statuses[endpoint.description] = {status, ...errorDetails, lastChecked: new Date() };
+        statuses[endpoint.description] = new EndpointStatus({status, errorDetails, lastChecked: new Date()});
         return statuses;
     });
 }
@@ -81,9 +82,9 @@ function keepStatusToHistory(endpoint :EndpointInfo, status :Status, errorDetail
     
     history.unshift({status, ...errorDetails, lastChecked: new Date() });
 
-    endpoitStatusHistory.update((statuses) => {
-        statuses[endpoint.description] = [...history];
-        return statuses;
+    endpoitStatusHistory.update((histories) => {
+        histories[endpoint.description] = [...history];
+        return histories;
     });
 }
 

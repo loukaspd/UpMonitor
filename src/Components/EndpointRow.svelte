@@ -45,7 +45,7 @@
     function showResponse() {
         window.$.modal({
             title: '',
-            content: endpointStatus.description,
+            content: endpointStatus.errorDetails.description,
             class: 'small',
             closable  : true,
             actions: [
@@ -108,7 +108,7 @@
         {:else if endpointStatus.status === Status.Error}
             <span>
                 <i class="icon times"></i> Error
-                <br/>StatusCode: {endpointStatus.statusCode || '-'}
+                <br/>StatusCode: {endpointStatus.errorDetails.statusCode || '-'}
                 <br/><a href={'#'} on:click={uiOnShowResponseClicked}>Response</a>
             </span>
         {:else if endpointStatus.status === Status.Success}

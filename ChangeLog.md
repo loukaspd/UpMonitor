@@ -1,6 +1,10 @@
 ## [Pending]
+### Changed
+- [EndpointStatus] refactor to typed approach
+
 ### Fixed
 - [Settings] remove setting when endpoint is deleted
+
 
 ## [0.1.1] - 2023-06-13
 ### Added
