@@ -38,7 +38,3 @@ export async function deleteAll() {
     //Store
     endpoitsStore.set([]);
 }
-
-export async function endpointExists(identifier: string) {
-    return !!(get(endpoitsStore).find(e => e.description == identifier));
-}

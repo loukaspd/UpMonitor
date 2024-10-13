@@ -23,7 +23,7 @@
         </tr>
     </thead>
     <tbody>
-        {#each $endpoitsStore as endpoint (endpoint.description)}
+        {#each $endpoitsStore as endpoint (endpoint.id)}
             <EndpointRow {endpoint}
             on:settingsClicked
             on:historyClicked/>

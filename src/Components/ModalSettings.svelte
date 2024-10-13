@@ -12,7 +12,6 @@
       if (settings == null) {
         settings = new Settings();
       }
-      console.log(settings);
       window.$(UiConstants.ModalSettings_IdSelector).modal('show');
     }
 

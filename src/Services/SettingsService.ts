@@ -1,8 +1,8 @@
-import { writable } from 'svelte/store';
+import { Writable, writable } from 'svelte/store';
 import Settings from "../Types/Settings";
 import { StoreConstants } from '../Auxiliaries/Constants';
 
-export const settingsStore = writable({});
+export const settingsStore :Writable<{ [id: string] : Settings }>= writable({});
 
 let allSettings = {};
 export async function loadSettings() {

@@ -5,6 +5,7 @@
 
 ### Changed
 - [EndpointStatus] refactor to typed approach
+- [App] use id instead of description
 
 ### Fixed
 - [Settings] remove setting when endpoint is deleted

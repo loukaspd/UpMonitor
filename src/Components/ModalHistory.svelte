@@ -6,17 +6,17 @@
     //</imports>
 
     //<properties>
-    let endpointDesc :string;
+    let endpointId :string;
     //</properties>
 
-    export function showModal(endpointDescription: string) {
-        endpointDesc = endpointDescription;
+    export function showModal(endpointId: string) {
+        endpointId = endpointId;
 
         window.$(UiConstants.ModalHistory_IdSelector).modal('show');
     }
 
     async function uiOnClearClicked() {
-        historyClear(endpointDesc);
+        historyClear(endpointId);
     }
 </script>
 
@@ -25,11 +25,11 @@
 <!-- Render  -->
 <!-- ######################################## -->
 <div class="ui modal" id="{UiConstants.ModalHistory_Id}">
-    <div class="basic header">{endpointDesc}</div>
+    <div class="basic header">History</div>
 
     <div class="scrolling content">
         <div class="ui feed">
-            {#each $endpoitStatusHistory[endpointDesc] ?? [] as h (h.lastChecked.toString())}
+            {#each $endpoitStatusHistory[endpointId] ?? [] as h (h.lastChecked.toString())}
             <div class="event">
                 <div class="label">
                     {#if h.status === Status.Success}

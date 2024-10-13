@@ -20,14 +20,14 @@
 
     let endpointStatus :EndpointStatus;
     const endpointStatusUnsubscr = endpoitStatusStore.subscribe((statuses) => {
-        endpointStatus = statuses[endpoint.description] as EndpointStatus;
+        endpointStatus = statuses[endpoint.id] as EndpointStatus;
         if (!endpointStatus) {
             endpointStatus = new EndpointStatus();
         }
     });
     let settingsActive :boolean;
     const settingsUnsubscr = settingsStore.subscribe((settings) => {
-        settingsActive = !!settings[endpoint.description];
+        settingsActive = !!settings[endpoint.id];
     })
 
     function checkEndpoint() {
@@ -35,11 +35,11 @@
     }
 
     function settingsClicked() {
-        evntSettingsDispatcher('settingsClicked', endpoint.description);
+        evntSettingsDispatcher('settingsClicked', endpoint.id);
     }
 
     function showHistory() {
-        evntHistoryDispatcher('historyClicked', endpoint.description);
+        evntHistoryDispatcher('historyClicked', endpoint.id);
     }
 
     function showResponse() {
@@ -59,7 +59,7 @@
     //----- Ui Callbacks -----//
     function uiOnDeleteClicked() {
         deleteItem(endpoint);
-        deleteSettings(endpoint.description);
+        deleteSettings(endpoint.id);
     }
 
     function uiOnRefreshClicked() {

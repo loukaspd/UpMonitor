@@ -1,6 +1,6 @@
 <script lang="ts">
     import EndpointInfo from '../Types/EndpointInfo';
-    import { saveEndpoint, endpointExists } from '../Services/EndpointsService';
+    import { saveEndpoint } from '../Services/EndpointsService';
     import { UiConstants } from '../Auxiliaries/Constants';
     import { showErrorToast, showSuccessToast } from '../Auxiliaries/UiHelpers'
     
@@ -18,11 +18,6 @@
         //<Validation>
         if (!endpoint.description) {
           showErrorToast('Description is required');
-          return;
-        }
-        const exists = await endpointExists(endpoint.description);
-        if (exists) {
-          showErrorToast('Description exists');
           return;
         }
         //</Validation>

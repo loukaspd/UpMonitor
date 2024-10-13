@@ -18,11 +18,11 @@ export function addEndpoint(endpoint: EndpointInfo) {
 }
 
 export function removeEndpoint(endpoint: EndpointInfo) {
-    clearTimeout(timeouts[endpoint.description]);
+    clearTimeout(timeouts[endpoint.id]);
 }
 
 export function updateStatus(endpoint: EndpointInfo) {
-    clearTimeout(timeouts[endpoint.description]);
+    clearTimeout(timeouts[endpoint.id]);
     updateStatusRecursive(endpoint);
 }
 
@@ -34,7 +34,7 @@ export function historyClear(endpointDescription: string) {
 }
 
 async function updateStatusRecursive(endpoint :EndpointInfo) {
-    let prevStatus :Status= get(endpoitStatusStore)[endpoint.description]?.status;
+    let prevStatus :Status= get(endpoitStatusStore)[endpoint.id]?.status;
     setEndpointStatus(endpoint, new EndpointStatus({status:Status.Pending}));
     const settings = settingsForEndpoint(endpoint);
     
@@ -63,14 +63,14 @@ async function updateStatusRecursive(endpoint :EndpointInfo) {
     showNotificationIfNeeded(endpoint, prevStatus, endpointStatus.status, settings);
 
     //Recurse
-    timeouts[endpoint.description] = setTimeout(async () => await updateStatusRecursive(endpoint), settings.refreshIntervalSeconds() * 1000);
+    timeouts[endpoint.id] = setTimeout(async () => await updateStatusRecursive(endpoint), settings.refreshIntervalSeconds() * 1000);
 }
 
 
 //Helper Functions
 function setEndpointStatus(endpoint: EndpointInfo, endpointStatus: EndpointStatus) {
     endpoitStatusStore.update((statuses) => {
-        statuses[endpoint.description] = endpointStatus;
+        statuses[endpoint.id] = endpointStatus;
         return statuses;
     });
 }
@@ -80,12 +80,12 @@ function keepStatusToHistory(endpoint :EndpointInfo, status :Status, errorDetail
         return;//we don't store pending status
     }
     
-    const history = get(endpoitStatusHistory)[endpoint.description] ?? [];
+    const history = get(endpoitStatusHistory)[endpoint.id] ?? [];
     
     history.unshift({status, ...errorDetails, lastChecked: new Date() });
 
     endpoitStatusHistory.update((histories) => {
-        histories[endpoint.description] = [...history];
+        histories[endpoint.id] = [...history];
         return histories;
     });
 }
@@ -101,7 +101,7 @@ function showNotificationIfNeeded(endpoint :EndpointInfo, prevStatus :Status, ne
     const prevDescr = StatusDescription[prevStatus];
     const currentDescr = StatusDescription[newStatus];
     window.electronAPI.showStatusNotification({
-        description: endpoint.description, 
+        description: endpoint.id, 
         prevStatus: prevDescr, 
         currentStatus: currentDescr 
     });
@@ -110,5 +110,5 @@ function showNotificationIfNeeded(endpoint :EndpointInfo, prevStatus :Status, ne
 
 function settingsForEndpoint(endpoint :EndpointInfo) :Settings {
     const settings = get(settingsStore);    
-    return settings[endpoint.description] || settings[StoreConstants.DEFAULT_SETTINGS_ID];
+    return settings[endpoint.id] || settings[StoreConstants.DEFAULT_SETTINGS_ID];
 }
