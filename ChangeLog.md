@@ -1,4 +1,7 @@
 ## [Pending]
+
+
+## [0.2.0] - 2024-10-13
 ### Added
 - [Endpoint] add Edit functionality
 - [Endpoint] add redirect info
