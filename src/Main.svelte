@@ -9,6 +9,7 @@
     import {loadEndpoints, deleteAll} from './Services/EndpointsService';
     import {loadSettings} from './Services/SettingsService';
     import StorageService from './Services/StorageService';
+  import { refreshAllEndpoints } from './Services/EndpointStatusService';
     //----- </Internal> -----//
 
     let modalEndpoint: ModalEndpoint;
@@ -50,6 +51,10 @@
         window.electronAPI.loadFileWithPicker();
     }
 
+    function uiOnRefreshClicked() {
+        refreshAllEndpoints();
+    }
+
     function uiOnDeleteAllClicked() {
         window.$.modal({
             title: 'Delete all Endpoints?',
@@ -83,6 +88,7 @@
         on:deleteAllClicked={uiOnDeleteAllClicked}
         on:downloadClicked={uiOnDownloadClicked}
         on:loadClicked={uiOnLoadClicked}
+        on:refreshClicked={uiOnRefreshClicked}
     />
 
     <EndpointsTable

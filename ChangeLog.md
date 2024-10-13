@@ -4,6 +4,7 @@
 - [Endpoint] add redirect info
 - [Endpoint] add next check date
 - [List] add ordering functionality
+- [List] add refresh all button
 
 ### Changed
 - [EndpointStatus] refactor to typed approach

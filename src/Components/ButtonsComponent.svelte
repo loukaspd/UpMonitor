@@ -22,6 +22,9 @@
     function uiOnDeleteAllClicked() {
         dispatch('deleteAllClicked');
     }
+    function uiOnRefreshClicked() {
+        dispatch('refreshClicked');
+    }
     //----- </Ui-Callbacks> ----- //
 </script>
 
@@ -42,10 +45,13 @@
     </div>
 
     <div class="flex-container">
-        <button class="ui small negative labeled icon button" on:click={uiOnDeleteAllClicked}>
+        <button class="ui small secondary icon button" on:click={uiOnRefreshClicked}>
+            <i class="play icon"></i> Refresh
+        </button>
+        <button class="ui small negative icon button" on:click={uiOnDeleteAllClicked}>
             <i class="close icon"></i> Delete All
         </button>
-        <button class="ui small labeled icon button" on:click={uiOnSettingsClicked}>
+        <button class="ui small icon button" on:click={uiOnSettingsClicked}>
             <i class="edit icon"></i> Settings
         </button>
         <button class="ui small primary labeled icon button" on:click={uiOnAddClicked}>

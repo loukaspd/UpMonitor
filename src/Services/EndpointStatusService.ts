@@ -7,6 +7,7 @@ import { settingsStore } from './SettingsService';
 import { Status, StatusDescription, StoreConstants } from '../Auxiliaries/Constants';
 import type Settings from '../Types/Settings';
 import EndpointStatus, { ErrorDetails, RedirectDetails } from '../Types/EndpointStatus';
+import { endpoitsStore } from './EndpointsService';
 
 export const endpoitStatusStore :Writable<{ [id: string] : EndpointStatus }> = writable({});
 export const endpoitStatusHistory = writable({});
@@ -24,6 +25,10 @@ export function removeEndpoint(endpoint: EndpointInfo) {
 export function updateStatus(endpoint: EndpointInfo) {
     clearTimeout(timeouts[endpoint.id]);
     updateStatusRecursive(endpoint);
+}
+
+export function refreshAllEndpoints() {
+    get(endpoitsStore).forEach(endpoint => updateStatus(endpoint));
 }
 
 export function historyClear(endpointDescription: string) {
