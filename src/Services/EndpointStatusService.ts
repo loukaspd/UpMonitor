@@ -34,33 +34,31 @@ export function historyClear(endpointDescription: string) {
 
 async function updateStatusRecursive(endpoint :EndpointInfo) {
     let prevStatus :Status= get(endpoitStatusStore)[endpoint.description]?.status;
-    setEndpointStatus(endpoint, Status.Pending, new RedirectDetails());
-    let status :Status;
-    let errorDetails: ErrorDetails = null;
-    let redirectDetails: RedirectDetails = new RedirectDetails();
+    setEndpointStatus(endpoint, new EndpointStatus({status:Status.Pending}));
+    
+    let endpointStatus = new EndpointStatus();
     try {
         let response = await fetch(endpoint.url);
-        redirectDetails = new RedirectDetails({redirected: response.redirected, url: response.url});
+        endpointStatus.redirectDetails = new RedirectDetails({redirected: response.redirected, url: response.url});
         if (response.ok) {
-            status = Status.Success;
+            endpointStatus.status = Status.Success;
         }
         else {
-            status = Status.Error;
-            errorDetails = new ErrorDetails({statusCode: response.status, description: await response.text()});
+            endpointStatus.status = Status.Error;
+            endpointStatus.errorDetails = new ErrorDetails({statusCode: response.status, description: await response.text()});
         }
-        status = response.ok ? Status.Success : Status.Error;
     }
     catch(error) {
         console.log(error);
-        status = Status.Error;
-        errorDetails = new ErrorDetails({description: error.message});
+        endpointStatus.status = Status.Error;
+        endpointStatus.errorDetails = new ErrorDetails({description: error.message});
     }
     setEndpointStatus(endpoint, status, redirectDetails, errorDetails);
     keepStatusToHistory(endpoint, status, errorDetails);
 
 
     const settings = settingsForEndpoint(endpoint);
-    showNotificationIfNeeded(endpoint, prevStatus, status, settings);
+    showNotificationIfNeeded(endpoint, prevStatus, endpointStatus.status, settings);
 
     //Recurse
     timeouts[endpoint.description] = setTimeout(async () => await updateStatusRecursive(endpoint), settings.refreshIntervalSeconds() * 1000);
@@ -68,9 +66,9 @@ async function updateStatusRecursive(endpoint :EndpointInfo) {
 
 
 //Helper Functions
-function setEndpointStatus(endpoint: EndpointInfo, status :Status, redirectDetails: RedirectDetails, errorDetails :ErrorDetails = null) {
+function setEndpointStatus(endpoint: EndpointInfo, endpointStatus: EndpointStatus) {
     endpoitStatusStore.update((statuses) => {
-        statuses[endpoint.description] = new EndpointStatus({status, redirectDetails, errorDetails, lastChecked: new Date()});
+        statuses[endpoint.description] = endpointStatus;
         return statuses;
     });
 }
