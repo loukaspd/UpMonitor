@@ -5,11 +5,9 @@ import EndpointInfo from '../Types/EndpointInfo';
 export const endpoitsStore = writable<EndpointInfo[]>([]);
 
 export async function saveEndpoint(item: EndpointInfo) {
-    //localStorage
-    const endPoints = get(endpoitsStore);
-    localStorage.setItem('endpoints', JSON.stringify([...endPoints, item]));
-    //Store
-    endpoitsStore.update((endpoints1) => [...endpoints1, item]);
+    const endPoints = upsertEndpoint(get(endpoitsStore), item);
+
+    setEndpoitns(endPoints);
 }
 
 export async function loadEndpoints() {
@@ -37,4 +35,14 @@ export async function deleteAll() {
     localStorage.removeItem('endpoints');
     //Store
     endpoitsStore.set([]);
+}
+
+function upsertEndpoint(allEndpoints: EndpointInfo[], endpoint: EndpointInfo) : EndpointInfo[] {
+    const exists = !!allEndpoints.find(x => x.id === endpoint.id);
+    if (exists) {
+        return allEndpoints.map(x => x.id === endpoint.id ? endpoint : x);
+    }
+    else {
+        return [...allEndpoints, endpoint];
+    }
 }

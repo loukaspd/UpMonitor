@@ -2,6 +2,7 @@
     import { onDestroy, createEventDispatcher } from 'svelte';
     const evntSettingsDispatcher = createEventDispatcher<{ settingsClicked: string }>();
     const evntHistoryDispatcher = createEventDispatcher<{ historyClicked: string }>();
+    const evntEditDispatcher = createEventDispatcher<{ editClicked: string }>();
     //----- <Internal Imports> -----//
     import EndpointStatus from '../Types/EndpointStatus'
     import type EndpointInfo from '../Types/EndpointInfo';
@@ -42,6 +43,10 @@
         evntHistoryDispatcher('historyClicked', endpoint.id);
     }
 
+    function editClicked() {
+        evntEditDispatcher('editClicked', endpoint.id);
+    }
+
     function showResponse() {
         window.$.modal({
             title: '',
@@ -76,6 +81,10 @@
 
     function uiOnShowResponseClicked() {
         showResponse();
+    }
+
+    function uiOnEditClicked() {
+        editClicked();
     }
 
     //----- <Svente-LifeCycle> -----//
@@ -132,6 +141,8 @@
         <a on:click={uiOnRefreshClicked} href={'#'} class="refresh" title="Refresh" data-toggle="tooltip"><i class="material-icons">&#xe5d5;</i></a>
 
         <a on:click={uiOnHistoryClicked} href={'#'} class="settings" title="History" data-toggle="tooltip" style="color:black;"><i class="material-icons">work_history</i></a>
+
+        <a on:click={uiOnEditClicked} href={'#'} class="edit" title="Edit" data-toggle="tooltip" style="color:black;"><i class="material-icons">edit</i></a>
     </td>
 </tr>
 

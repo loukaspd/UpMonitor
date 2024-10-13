@@ -1,4 +1,7 @@
 <script lang="ts">
+    import { get } from 'svelte/store';
+    
+    import {endpoitsStore} from '../Services/EndpointsService';
     import EndpointInfo from '../Types/EndpointInfo';
     import { saveEndpoint } from '../Services/EndpointsService';
     import { UiConstants } from '../Auxiliaries/Constants';
@@ -7,9 +10,16 @@
     let https = '';
     let endpoint = new EndpointInfo();
 
-    export function showModal() {
-      endpoint = new EndpointInfo();
-      https = 'https://';
+    export function showModal(identifier: string) {
+      if (!!identifier) {
+        const existing = get(endpoitsStore).find(e => e.id === identifier);
+        endpoint = new EndpointInfo(existing);
+        uiOnUrlChange();
+      }
+      else {
+        endpoint = new EndpointInfo();
+        https = 'https://';
+      }
       window.$(UiConstants.ModalEndpoint_IdSelector).modal('show');
     }
 
@@ -40,13 +50,7 @@
       const index = endpoint.url.indexOf('://');
       https = endpoint.url.substring(0, index+3);
       endpoint.url = endpoint.url.substring(index+3);
-    }
-
-    //this is triggered on every key press
-    async function uiOnUrlInput() {
-      //console.log('input',e.target.value);
-    }
-    
+    }    
 </script>
 
 
@@ -74,8 +78,7 @@
         </div>
         <div class="fifteen wide field">
           <input type="text" class="form-control" id="url" placeholder="Url"
-            bind:value={endpoint.url} 
-            on:input={uiOnUrlInput}
+            bind:value={endpoint.url}
             on:change={uiOnUrlChange}
           >
         </div>

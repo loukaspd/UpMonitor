@@ -26,7 +26,8 @@
         {#each $endpoitsStore as endpoint (endpoint.id)}
             <EndpointRow {endpoint}
             on:settingsClicked
-            on:historyClicked/>
+            on:historyClicked
+            on:editClicked/>
         {/each}
     </tbody>
 </table>

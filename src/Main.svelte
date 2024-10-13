@@ -27,7 +27,7 @@
 	});
 
     function uiOnAddClicked() {
-        modalEndpoint.showModal();
+        modalEndpoint.showModal(null);
     }
 
     function uiOnSettingsClicked(event: CustomEvent<string>) {
@@ -36,6 +36,10 @@
 
     function uiOnHistoryClicked(event: CustomEvent<string>) {
         modalHistory.showModal(event.detail);
+    }
+
+    function uiOnEditClicked(event: CustomEvent<string>) {
+        modalEndpoint.showModal(event.detail);
     }
 
     async function uiOnDownloadClicked() {
@@ -84,6 +88,7 @@
     <EndpointsTable
         on:settingsClicked={uiOnSettingsClicked}
         on:historyClicked={uiOnHistoryClicked}
+        on:editClicked={uiOnEditClicked}
     />
     <ModalEndpoint bind:this={modalEndpoint}/>
     <ModalSettings bind:this={modalSettings}/>
