@@ -1,4 +1,7 @@
 ## [Pending]
+### Added
+- [EndpointStatus] add redirect info
+
 ### Changed
 - [EndpointStatus] refactor to typed approach
 

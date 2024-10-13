@@ -93,6 +93,12 @@
     <td>
         <a href="{endpoint.url}" target="_blank" rel="noreferrer">{endpoint.url}</a>
         <br>
+        <!-- Redirect Info -->
+        {#if endpointStatus.redirectDetails.redirected}
+            <i class="material-icons">warning</i>
+            <span>redirected to: {endpointStatus.redirectDetails.url}</span>
+        {/if}
+        <!-- Last Checked-->
         {#if endpointStatus.status !== Status.Pending}
             <p>last checked: {dateToStringHhMmSs(endpointStatus.lastChecked)}</p>
         {/if}

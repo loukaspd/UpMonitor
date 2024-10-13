@@ -5,7 +5,7 @@ import type EndpointInfo from '../Types/EndpointInfo';
 import { settingsStore } from './SettingsService';
 import { Status, StatusDescription, StoreConstants } from '../Auxiliaries/Constants';
 import type Settings from '../Types/Settings';
-import EndpointStatus, { ErrorDetails } from '../Types/EndpointStatus';
+import EndpointStatus, { ErrorDetails, RedirectDetails } from '../Types/EndpointStatus';
 
 export const endpoitStatusStore :Writable<{ [id: string] : EndpointStatus }> = writable({});
 export const endpoitStatusHistory = writable({});
@@ -34,11 +34,13 @@ export function historyClear(endpointDescription: string) {
 
 async function updateStatusRecursive(endpoint :EndpointInfo) {
     let prevStatus :Status= get(endpoitStatusStore)[endpoint.description]?.status;
-    setEndpointStatus(endpoint, Status.Pending);
+    setEndpointStatus(endpoint, Status.Pending, new RedirectDetails());
     let status :Status;
     let errorDetails: ErrorDetails = null;
+    let redirectDetails: RedirectDetails = new RedirectDetails();
     try {
         let response = await fetch(endpoint.url);
+        redirectDetails = new RedirectDetails({redirected: response.redirected, url: response.url});
         if (response.ok) {
             status = Status.Success;
         }
@@ -53,8 +55,8 @@ async function updateStatusRecursive(endpoint :EndpointInfo) {
         status = Status.Error;
         errorDetails = new ErrorDetails({description: error.message});
     }
-    setEndpointStatus(endpoint, status, errorDetails);
-    keepStatusToHistory(endpoint,status, errorDetails);
+    setEndpointStatus(endpoint, status, redirectDetails, errorDetails);
+    keepStatusToHistory(endpoint, status, errorDetails);
 
 
     const settings = settingsForEndpoint(endpoint);
@@ -66,9 +68,9 @@ async function updateStatusRecursive(endpoint :EndpointInfo) {
 
 
 //Helper Functions
-function setEndpointStatus(endpoint: EndpointInfo, status :Status, errorDetails :ErrorDetails = null) {
+function setEndpointStatus(endpoint: EndpointInfo, status :Status, redirectDetails: RedirectDetails, errorDetails :ErrorDetails = null) {
     endpoitStatusStore.update((statuses) => {
-        statuses[endpoint.description] = new EndpointStatus({status, errorDetails, lastChecked: new Date()});
+        statuses[endpoint.description] = new EndpointStatus({status, redirectDetails, errorDetails, lastChecked: new Date()});
         return statuses;
     });
 }
