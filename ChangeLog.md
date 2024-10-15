@@ -1,6 +1,7 @@
 ## [Pending]
 ### Added
 - [List] add filtering
+- [ModalEndpoint] submit form on Enter
 
 
 ## [0.2.0] - 2024-10-13

@@ -30,6 +30,10 @@
           showErrorToast('Description is required');
           return;
         }
+        if (!endpoint.url) {
+          showErrorToast('Url is required');
+          return;
+        }
         //</Validation>
 
 
@@ -50,7 +54,16 @@
       const index = endpoint.url.indexOf('://');
       https = endpoint.url.substring(0, index+3);
       endpoint.url = endpoint.url.substring(index+3);
-    }    
+    }
+
+    function handleKeydown(e) {
+     if (e.key !== "Enter") {
+       return;
+     }
+
+     e.preventDefault();
+      uiOnSaveClicked();
+	  }
 </script>
 
 
@@ -61,7 +74,7 @@
   <div class="header">Add Endpoint</div>
 
   <div class="content">
-    <form class="ui form">
+    <form class="ui form" on:keydown={handleKeydown}>
       <!-- Row-1: Description-->
       <div class="field">
         <label for="description">Description</label>
