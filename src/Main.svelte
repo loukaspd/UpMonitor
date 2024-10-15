@@ -1,15 +1,16 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     //----- <Internal Imports> -----//
+    import {loadEndpoints, deleteAll, endpointsSearchInput} from './Services/EndpointsService';
+    import {loadSettings} from './Services/SettingsService';
+    import StorageService from './Services/StorageService';
+    import { refreshAllEndpoints } from './Services/EndpointStatusService';
+
     import EndpointsTable from "./Components/EndpointsTable.svelte";
     import ButtonsComponent from "./Components/ButtonsComponent.svelte";
     import ModalEndpoint from "./Components/ModalEndpoint.svelte";
     import ModalSettings from "./Components/ModalSettings.svelte";
     import ModalHistory from "./Components/ModalHistory.svelte";
-    import {loadEndpoints, deleteAll} from './Services/EndpointsService';
-    import {loadSettings} from './Services/SettingsService';
-    import StorageService from './Services/StorageService';
-  import { refreshAllEndpoints } from './Services/EndpointStatusService';
     //----- </Internal> -----//
 
     let modalEndpoint: ModalEndpoint;
@@ -26,6 +27,10 @@
             StorageService.loadEnviroment(fileContent);
         })
 	});
+
+    function uiOnSearchInputChanged(event: CustomEvent<string>) {
+        endpointsSearchInput.set(event.detail);
+    }
 
     function uiOnAddClicked() {
         modalEndpoint.showModal(null);
@@ -83,6 +88,7 @@
 <!-- ######################################## -->
 <div style="padding:10px 10px 0px 10px">
     <ButtonsComponent
+        on:searchInputChanged={uiOnSearchInputChanged}
         on:addClicked={uiOnAddClicked}
         on:settingsClicked={uiOnSettingsClicked}
         on:deleteAllClicked={uiOnDeleteAllClicked}

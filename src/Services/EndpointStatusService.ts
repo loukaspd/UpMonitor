@@ -15,6 +15,9 @@ export const endpoitStatusHistory = writable({});
 let timeouts:{[id: string] : NodeJS.Timeout} = {};
 
 export function addEndpoint(endpoint: EndpointInfo) {
+    if (get(endpoitStatusStore).hasOwnProperty(endpoint.id)) {
+        return;
+    }
     updateStatusRecursive(endpoint);
 }
 

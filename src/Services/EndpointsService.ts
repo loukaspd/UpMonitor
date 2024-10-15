@@ -1,9 +1,16 @@
 //This Service is responsible for syncing endpoints to localstorage and appStore
-import { writable, get } from 'svelte/store';
+import { writable, get, derived } from 'svelte/store';
 import EndpointInfo from '../Types/EndpointInfo';
 import { MoveDirection } from '../Auxiliaries/Constants';
 
 export const endpoitsStore = writable<EndpointInfo[]>([]);
+export const endpointsSearchInput = writable('');
+export const filteredEndpointsStore = derived([endpoitsStore, endpointsSearchInput], ([$endpoitsStore, $endpointsSearchInput]) => {
+    if (!$endpointsSearchInput) {
+        return $endpoitsStore;
+    }
+    return $endpoitsStore.filter(x => x.description.toLowerCase().includes($endpointsSearchInput.toLowerCase()));
+});
 
 export async function saveEndpoint(item: EndpointInfo) {
     const endPoints = upsertEndpoint(get(endpoitsStore), item);

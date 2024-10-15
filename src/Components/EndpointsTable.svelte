@@ -4,7 +4,7 @@
 
     //----- <Internal Imports> -----//
     import EndpointRow from './EndpointRow.svelte';
-    import {endpoitsStore} from '../Services/EndpointsService';
+    import {endpoitsStore, filteredEndpointsStore} from '../Services/EndpointsService';
     //----- </Internal Imports> -----//
 </script>
 
@@ -23,7 +23,7 @@
         </tr>
     </thead>
     <tbody>
-        {#each $endpoitsStore as endpoint, index (endpoint.id)}
+        {#each $filteredEndpointsStore as endpoint, index (endpoint.id)}
             <EndpointRow 
             {endpoint}
             firstItem={index==0}

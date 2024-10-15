@@ -3,6 +3,7 @@
     import { createEventDispatcher } from 'svelte';
     const dispatch = createEventDispatcher();
     import {StoreConstants} from '../Auxiliaries/Constants';
+    import Search from './UiComponents/Search.svelte';
     //----- </Methods Imports> -----//
     
     
@@ -42,6 +43,8 @@
         <button class="ui small primary labeled icon button" on:click={uiOnUploadClicked}>
             <i class="upload icon"></i> Load
         </button>
+
+        <Search placeholder="Filter by name" on:searchInputChanged/>
     </div>
 
     <div class="flex-container">
