@@ -23,6 +23,15 @@ export function addEndpoint(endpoint: EndpointInfo) {
 
 export function removeEndpoint(endpoint: EndpointInfo) {
     clearTimeout(timeouts[endpoint.id]);
+    delete timeouts[endpoint.id];
+    endpoitStatusStore.update((statuses) => {
+        delete statuses[endpoint.id];
+        return statuses;
+    });
+    endpoitStatusHistory.update((statuses) => {
+        delete statuses[endpoint.id];
+        return statuses;
+    });
 }
 
 export function updateStatus(endpoint: EndpointInfo) {

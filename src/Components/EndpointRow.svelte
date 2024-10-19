@@ -8,7 +8,7 @@
     import EndpointStatus from '../Types/EndpointStatus'
     import type EndpointInfo from '../Types/EndpointInfo';
     import {changeOrder, deleteItem} from '../Services/EndpointsService';
-    import {endpoitStatusStore, addEndpoint, updateStatus} from '../Services/EndpointStatusService';
+    import {endpoitStatusStore, addEndpoint, updateStatus, removeEndpoint} from '../Services/EndpointStatusService';
     import {deleteSettings, settingsStore} from '../Services/SettingsService'
     import {Status} from '../Auxiliaries/Constants';
     import {dateToStringHhMmSs} from '../Helpers/JsHelpers'
@@ -68,6 +68,7 @@
     function uiOnDeleteClicked() {
         deleteItem(endpoint);
         deleteSettings(endpoint.id);
+        removeEndpoint(endpoint);
     }
 
     function uiOnRefreshClicked() {
