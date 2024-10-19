@@ -5,6 +5,7 @@
 
 ### Fixed
 - [Endpoints] remove endpointStatus when endpoint is deleted
+- [History] fix param name
 
 
 ## [0.2.0] - 2024-10-13

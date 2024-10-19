@@ -10,7 +10,7 @@ import EndpointStatus, { ErrorDetails, RedirectDetails } from '../Types/Endpoint
 import { endpoitsStore } from './EndpointsService';
 
 export const endpoitStatusStore :Writable<{ [id: string] : EndpointStatus }> = writable({});
-export const endpoitStatusHistory = writable({});
+export const endpoitStatusHistory : Writable<{[id:string] : EndpointStatus[]}>= writable({});
 
 let timeouts:{[id: string] : NodeJS.Timeout} = {};
 
@@ -75,7 +75,7 @@ async function updateStatusRecursive(endpoint :EndpointInfo) {
     endpointStatus.nextCheck = JsHelpers.addSecondsToDate(new Date(), settings.refreshIntervalSeconds());
 
     setEndpointStatus(endpoint, endpointStatus);
-    keepStatusToHistory(endpoint, endpointStatus.status, endpointStatus.errorDetails);
+    keepStatusToHistory(endpoint, endpointStatus);
 
     showNotificationIfNeeded(endpoint, prevStatus, endpointStatus.status, settings);
 
@@ -92,14 +92,14 @@ function setEndpointStatus(endpoint: EndpointInfo, endpointStatus: EndpointStatu
     });
 }
 
-function keepStatusToHistory(endpoint :EndpointInfo, status :Status, errorDetails = {}) {
-    if (status == Status.Pending) {
+function keepStatusToHistory(endpoint :EndpointInfo, endpointStatus: EndpointStatus) {
+    if (endpointStatus.status == Status.Pending) {
         return;//we don't store pending status
     }
     
     const history = get(endpoitStatusHistory)[endpoint.id] ?? [];
     
-    history.unshift({status, ...errorDetails, lastChecked: new Date() });
+    history.unshift(endpointStatus);
 
     endpoitStatusHistory.update((histories) => {
         histories[endpoint.id] = [...history];

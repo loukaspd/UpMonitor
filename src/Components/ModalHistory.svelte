@@ -9,8 +9,8 @@
     let endpointId :string;
     //</properties>
 
-    export function showModal(endpointId: string) {
-        endpointId = endpointId;
+    export function showModal(endpointIdParam: string) {
+        endpointId = endpointIdParam;
 
         window.$(UiConstants.ModalHistory_IdSelector).modal('show');
     }
